@@ -30,6 +30,7 @@ app.use(helmet());
 
 app.use('/admin', require('./routes/admin'));
 app.use('/p', require('./routes/post'));
+app.use('/t', require('./routes/tags'));
 
 app.get('/', function (req, res) {
     let posts = Database.getPosts().map(p => {
@@ -38,7 +39,7 @@ app.get('/', function (req, res) {
             date: moment(p.date).format('MMMM Do YYYY, h:mm:ss a'),
             tags: p.tags.length < 1 ? 'none' : (p.tags.reduce((accu, curr, index, arr) => {
                 accu += `<a href="/t/${curr}">${curr}</a>`;
-                if (index < arr.length - 1) {
+                if (index < (arr.length - 1)) {
                     accu += ', '
                 }
 

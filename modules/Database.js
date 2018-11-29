@@ -36,6 +36,15 @@ class Database {
             return this.db.get('g').find({ v: t }).assign({ c: i.c++ }).write();
         })
     }
+
+    findPost({ tag = null, date = null }) {
+        let posts = this.db.get('posts').value();
+        if (tag !== null) {
+            return posts.filter(p => {
+                return p.tags.includes(tag);
+            });
+        }
+    }
 }
 
 module.exports = new Database();
