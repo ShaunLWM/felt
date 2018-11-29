@@ -37,12 +37,16 @@ class Database {
         })
     }
 
-    findPost({ tag = null, date = null }) {
+    findPost({ tag = null, date = null, slug = null }) {
         let posts = this.db.get('posts').value();
         if (tag !== null) {
             return posts.filter(p => {
                 return p.tags.includes(tag);
             });
+        }
+
+        if (slug !== null) {
+            return this.db.get('posts').find({ slug }).value();
         }
     }
 }

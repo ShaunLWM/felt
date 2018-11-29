@@ -1,23 +1,25 @@
+const Database = require('../modules/Database');
+const Utils = require('../modules/Utils');
+const _ = require('lodash');
+const moment = require('moment');
 const express = require('express');
 let router = express.Router();
 
-// router.get('/:id(\\d+)', function (req, res) {
-//     res.send('Birds home page');
-// });
-
-router.get('/:postId', (req, res, next) => {
-    let postId = req.params.postId;
-    if (typeof postId === 'undefined' || postId.length < 1) {
-        console.log('>> ' + postId);
-        console.log('>> ' + postId.length);
+router.get('/:slug', (req, res, next) => {
+    let slug = req.params.slug;
+    if (typeof slug === 'undefined' || slug.length < 1) {
         return next();
     }
 
-    if (/^\d+$/.test(postId)) {
-        return res.send('Numbr');
+    let results = Database.findPost({ slug: slug.trim() });
+    if (typeof results === 'undefined') {
+        return res.render('home');
     }
 
-    return res.send('Slug');
+    let posts = Utils.processPosts([results]);
+    return res.render('home', {
+        posts
+    });
 });
 
 module.exports = router;
