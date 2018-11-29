@@ -1,7 +1,7 @@
 const moment = require('moment');
 
 module.exports = {
-    processPosts: function (p) {
+    processPost: function (p) {
         return {
             ...p,
             date: moment(p.date).format('MMMM Do YYYY, h:mm:ss a'),

@@ -33,7 +33,7 @@ app.use('/p', require('./routes/post'));
 app.use('/t', require('./routes/tags'));
 
 app.get('/', function (req, res) {
-    let posts = Database.getPosts().map(p => Utils.processPosts(p));
+    let posts = Database.getPosts().map(p => Utils.processPost(p));
     return res.render('home', {
         posts
     });

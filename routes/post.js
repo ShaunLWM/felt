@@ -16,7 +16,7 @@ router.get('/:slug', (req, res, next) => {
         return res.render('home');
     }
 
-    let posts = Utils.processPosts(results);
+    let posts = Utils.processPost(results);
     return res.render('home', {
         posts
     });
