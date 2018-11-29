@@ -5,9 +5,9 @@ const moment = require('moment');
 const cors = require('cors');
 const helmet = require('helmet');
 
+const Utils = require('./modules/Utils');
 let Database = require('./modules/Database');
 let app = express();
-
 let port = 8081;
 
 let hbs = exphbs.create({
@@ -33,21 +33,7 @@ app.use('/p', require('./routes/post'));
 app.use('/t', require('./routes/tags'));
 
 app.get('/', function (req, res) {
-    let posts = Database.getPosts().map(p => {
-        return {
-            ...p,
-            date: moment(p.date).format('MMMM Do YYYY, h:mm:ss a'),
-            tags: p.tags.length < 1 ? 'none' : (p.tags.reduce((accu, curr, index, arr) => {
-                accu += `<a href="/t/${curr}">${curr}</a>`;
-                if (index < (arr.length - 1)) {
-                    accu += ', '
-                }
-
-                return accu;
-            }, ''))
-        }
-    });
-
+    let posts = Utils.processPosts(Database.getPosts());
     return res.render('home', {
         posts
     });
