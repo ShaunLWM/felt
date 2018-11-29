@@ -7,6 +7,9 @@
             <p>{{{body}}}</p>
             <p>Tags: {{{tags}}}</p>
         </div>
+
+        {{else}}
+        <p>No posts yet!</p>
         {{/each}}
     </div>
     <div class="col s12 l4">
@@ -25,7 +28,9 @@
             <div class="card-content grey lighten-4">
                 <div id="about">Test 1</div>
                 <div id="archive">Test 2</div>
-                <div id="cloud"><div id="cloud_data"></div></div>
+                <div id="cloud">
+                    <div id="cloud_data"></div>
+                </div>
             </div>
         </div>
     </div>
