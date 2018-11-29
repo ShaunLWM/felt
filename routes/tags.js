@@ -16,7 +16,7 @@ router.get('/:tag', (req, res, next) => {
         return res.render('home');
     }
 
-    let posts = Utils.processPosts(results).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+    let posts = results.map(p => Utils.processPosts(p)).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
     return res.render('home', {
         posts
     });
