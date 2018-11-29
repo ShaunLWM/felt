@@ -1,5 +1,6 @@
 const Database = require('../modules/Database');
 const Utils = require('../modules/Utils');
+const _ = require('lodash');
 const moment = require('moment');
 const express = require('express');
 let router = express.Router();
@@ -15,7 +16,7 @@ router.get('/:tag', (req, res, next) => {
         return res.render('home');
     }
 
-    let posts = Utils.processPosts(results);
+    let posts = Utils.processPosts(results).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
     return res.render('home', {
         posts
     });
