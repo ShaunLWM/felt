@@ -1,0 +1,15 @@
+.post {
+    border-bottom: 1px solid #6B6B6B;
+}
+
+#editor {
+    height: 375px;
+}
+
+.error {
+    color: red;
+}
+
+#error_text {
+    margin-top: 5px;
+}
