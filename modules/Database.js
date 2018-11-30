@@ -15,11 +15,26 @@ class Database {
             slug, title, date, body, tags
         }).write();
         this.processTags(tags);
+        this.processAnalytics(slug);
         // !todo update analytics
     }
 
     getPosts() {
         return this.db.get('posts').orderBy('date', ['desc']).take(5).value()
+    }
+
+    processAnalytics(slug) {
+        let analytics = this.db.get('analytics').find({ slug }).value();
+        if (typeof analytics === 'undefined') {
+            console.log('>> adding new analytics');
+            return this.db.get('analytics').push({
+                slug,
+                views: 0,
+                stats: []
+            }).write();
+        }
+
+        return this.db.get('analytics').find({ slug }).assign({ views: analytics.views+ 1 }).write();
     }
 
     processTags(tags) {
@@ -34,7 +49,7 @@ class Database {
             }
 
             return this.db.get('g').find({ v: t }).assign({ c: i.c++ }).write();
-        })
+        });
     }
 
     findPost({ tag = null, date = null, slug = null }) {
@@ -46,6 +61,7 @@ class Database {
         }
 
         if (slug !== null) {
+            this.processAnalytics(slug);
             return this.db.get('posts').find({ slug }).value();
         }
     }
