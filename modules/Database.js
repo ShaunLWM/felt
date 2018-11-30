@@ -20,11 +20,11 @@ class Database {
     }
 
     getAllTags() {
-        return this.db.get('tags').value();
+        return this.db.get('tags').orderBy('u', ['desc']).value();
     }
 
     getPosts(count = 5) {
-        return this.db.get('posts').orderBy('date', ['desc']).take(count).value()
+        return this.db.get('posts').orderBy('date', ['desc']).take(count).value();
     }
 
     processAnalytics(slug) {
@@ -46,12 +46,13 @@ class Database {
             let i = this.db._.find(old, function (o) { return o.v === t; });
             if (typeof i === 'undefined') {
                 return this.db.get('tags').push({
-                    v: t.trim(),
-                    c: 1
+                    v: t.trim(),                    // value
+                    c: 1,                           // count
+                    u: ((new Date()).getTime())     // last updated
                 }).write();
             }
 
-            return this.db.get('tags').find({ v: t }).assign({ c: i.c + 1 }).write();
+            return this.db.get('tags').find({ v: t }).assign({ c: i.c + 1, u: ((new Date()).getTime()) }).write();
         });
     }
 
