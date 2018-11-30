@@ -36,4 +36,8 @@ app.get('/', function (req, res) {
     });
 });
 
+app.use(function (req, res, next) {
+    return res.status(404).render('404');
+});
+
 app.listen(config.port, () => console.log(`Blog listening on port ${config.port}!`))
