@@ -10,8 +10,8 @@ router.get('/:tag', (req, res, next) => {
     }
 
     let results = Database.findPost({ tag: tag.trim() });
-    if (typeof results === 'undefined') {
-        return res.render('home');
+    if (typeof results === 'undefined' || results.length < 1) {
+        return next();
     }
 
     let posts = results.map(p => Utils.processPost(p)).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
