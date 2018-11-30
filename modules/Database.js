@@ -14,9 +14,9 @@ class Database {
         this.db.get('posts').push({
             slug, title, date, body, tags
         }).write();
+
         this.processTags(tags);
         this.processAnalytics(slug);
-        // !todo update analytics
     }
 
     getPosts() {
@@ -26,7 +26,6 @@ class Database {
     processAnalytics(slug) {
         let analytics = this.db.get('analytics').find({ slug }).value();
         if (typeof analytics === 'undefined') {
-            console.log('>> adding new analytics');
             return this.db.get('analytics').push({
                 slug,
                 views: 0,
