@@ -3,6 +3,7 @@
     "@sindresorhus/slugify": "^0.6.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "escape-html": "^1.0.3",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.0",
     "helmet": "^3.15.0",
