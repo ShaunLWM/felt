@@ -6,17 +6,14 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const Utils = require('./modules/Utils');
+const config = require('./config');
 let Database = require('./modules/Database');
+
 let app = express();
-let port = 8081;
 
 let hbs = exphbs.create({
     defaultLayout: 'main',
-    extname: '.hbs',
-    helpers: {
-        foo: function () { return 'FOO!'; },
-        bar: function () { return 'BAR!'; }
-    }
+    extname: '.hbs'
 });
 
 
@@ -39,4 +36,4 @@ app.get('/', function (req, res) {
     });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(config.port, () => console.log(`Blog listening on port ${config.port}!`))

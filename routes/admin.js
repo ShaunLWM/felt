@@ -3,13 +3,14 @@ const slugify = require('@sindresorhus/slugify');
 const Database = require('../modules/Database');
 const randtoken = require('rand-token');
 const multer = require('multer');
+const config = require('../config');
 
 let acceptedExtension = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'blob'];
 let accepted = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/svg+xml'];
 
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        return cb(null, `${__dirname}/../public/img/`)
+        return cb(null, `${__dirname}/../public/img/`);
     },
     filename: function (req, file, cb) {
         let f = file.originalname.split('.').pop();
@@ -31,7 +32,7 @@ const upload = multer({ storage, fileFilter });
 let router = express.Router();
 
 router.get('/', function (req, res, next) {
-    if (typeof req.query.u !== 'undefined' && req.query.u == '1' && typeof req.query.p !== 'undefined' && req.query.p == '2') {
+    if (typeof req.query.u !== 'undefined' && req.query.u == config.admin.username && typeof req.query.p !== 'undefined' && req.query.p == config.admin.password) {
         return res.render('admin');
     }
 
@@ -43,7 +44,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
         return res.status(404).json({ message: 'Image failed to upload' });
     }
 
-    return res.status(200).json({ link: `http://localhost:8081/img/${req.file.filename}` });
+    return res.status(200).json({ link: `${config.host}:${config.port}/img/${req.file.filename}` });
 });
 
 router.post('/new', (req, res) => {
