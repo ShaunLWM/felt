@@ -19,8 +19,8 @@ class Database {
         this.processAnalytics(slug);
     }
 
-    getPosts() {
-        return this.db.get('posts').orderBy('date', ['desc']).take(5).value()
+    getPosts(count = 5) {
+        return this.db.get('posts').orderBy('date', ['desc']).take(count).value()
     }
 
     processAnalytics(slug) {
