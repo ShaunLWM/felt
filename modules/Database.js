@@ -19,6 +19,10 @@ class Database {
         this.processAnalytics(slug);
     }
 
+    getAllTags() {
+        return this.db.get('tags').value();
+    }
+
     getPosts(count = 5) {
         return this.db.get('posts').orderBy('date', ['desc']).take(count).value()
     }
@@ -42,7 +46,7 @@ class Database {
             let i = this.db._.find(old, function (o) { return o.v === t; });
             if (typeof i === 'undefined') {
                 return this.db.get('tags').push({
-                    v: t,
+                    v: t.trim(),
                     c: 1
                 }).write();
             }

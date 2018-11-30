@@ -9,7 +9,9 @@
         </div>
 
         {{else}}
-        <p><h5>No posts yet!</h5></p>
+        <p>
+            <h5>No posts yet!</h5>
+        </p>
         {{/each}}
     </div>
     <div class="col s12 l4">
@@ -20,16 +22,22 @@
             </div>
             <div class="card-tabs">
                 <ul class="tabs tabs-fixed-width">
-                    <li class="tab"><a href="#about">About</a></li>
-                    <li class="tab"><a class="active" href="#archive">Archive</a></li>
-                    <li class="tab"><a href="#cloud">Cloud</a></li>
+                    <li class="tab"><a href="#archives">Archive</a></li>
+                    <li class="tab"><a class="active" href="#about">About</a></li>
+                    <li class="tab"><a href="#tags">Tags</a></li>
                 </ul>
             </div>
             <div class="card-content grey lighten-4">
-                <div id="about">Test 1</div>
-                <div id="archive">Test 2</div>
-                <div id="cloud">
-                    <div id="cloud_data"></div>
+                <div id="archives">Test 1</div>
+                <div id="about">Test 2</div>
+                <div id="tags">
+                    {{#each tags}}
+                    <p><a href="/t/{{{escape v}}}">{{{escape v}}}</a> ({{c}})</p>
+                    {{else}}
+                    <p>
+                        <h5>No tags yet!</h5>
+                    </p>
+                    {{/each}}
                 </div>
             </div>
         </div>
