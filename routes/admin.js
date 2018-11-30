@@ -62,7 +62,7 @@ router.post('/new', (req, res) => {
     let date = Math.round((new Date()).getTime());
     let title = req.body.title.trim();
     let slug = slugify(title).trim();
-    let body = req.body.body.trim().replace('class="fr-fic fr-dib"', 'class="fr-fic fr-dib materialboxed"');
+    let body = req.body.body.trim().replace(/class="fr-fic fr-dib"/g, 'class="fr-fic fr-dib materialboxed"');
     let post = {
         slug,
         title,
