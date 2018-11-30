@@ -1,7 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const moment = require('moment');
 const cors = require('cors');
 const helmet = require('helmet');
 
@@ -36,7 +35,7 @@ app.get('/', function (req, res) {
     });
 });
 
-app.use(function (req, res, next) {
+app.use(function (req, res) {
     return res.status(404).render('404');
 });
 
