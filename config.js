@@ -1,5 +1,5 @@
 module.exports = {
-    host: 'http://localhost:8081',
+    host: 'http://localhost',
     port: 8081,
     admin: {
         username: '1',
