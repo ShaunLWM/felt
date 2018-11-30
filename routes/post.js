@@ -17,6 +17,7 @@ router.get('/:slug', (req, res, next) => {
     let posts = [Utils.processPost(results)];
     let tags = res.locals.tags;
     return res.render('home', {
+        title: res.locals.title,
         posts,
         tags,
         helpers: res.locals.helpers

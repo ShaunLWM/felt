@@ -7,8 +7,8 @@ const escape = require('escape-html');
 
 const Utils = require('./modules/Utils');
 const config = require('./config');
-let Database = require('./modules/Database');
 
+let Database = require('./modules/Database');
 let app = express();
 
 let hbs = exphbs.create({
@@ -32,6 +32,7 @@ app.use(function (req, res, next) {
     let tags = Database.getAllTags();
     res.locals.tags = tags;
     res.locals.helpers = hbs.helpers;
+    res.locals.title = config.title;
     return next();
 });
 
@@ -45,7 +46,8 @@ app.get('/', function (req, res) {
     return res.render('home', {
         posts,
         tags,
-        helpers: res.locals.helpers
+        helpers: res.locals.helpers,
+        title: res.locals.title
     });
 });
 

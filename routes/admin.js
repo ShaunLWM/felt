@@ -33,7 +33,9 @@ let router = express.Router();
 
 router.get('/', function (req, res, next) {
     if (typeof req.query.u !== 'undefined' && req.query.u == config.admin.username && typeof req.query.p !== 'undefined' && req.query.p == config.admin.password) {
-        return res.render('admin');
+        return res.render('admin', {
+            title: res.locals.title
+        });
     }
 
     return next();
