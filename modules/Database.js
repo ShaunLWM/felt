@@ -34,7 +34,7 @@ class Database {
             }).write();
         }
 
-        return this.db.get('analytics').find({ slug }).assign({ views: analytics.views+ 1 }).write();
+        return this.db.get('analytics').find({ slug }).assign({ views: analytics.views + 1 }).write();
     }
 
     processTags(tags) {
@@ -48,7 +48,7 @@ class Database {
                 }).write();
             }
 
-            return this.db.get('g').find({ v: t }).assign({ c: i.c++ }).write();
+            return this.db.get('tags').find({ v: t }).assign({ c: i.c + 1 }).write();
         });
     }
 
