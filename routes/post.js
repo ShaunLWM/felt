@@ -14,7 +14,7 @@ router.get('/:slug', (req, res, next) => {
         return next();
     }
 
-    let posts = [Utils.processPost(results)];
+    let posts = [Utils.processPostView(results)];
     let tags = res.locals.tags;
     return res.render('home', {
         title: res.locals.title,

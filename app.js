@@ -41,7 +41,7 @@ app.use('/p', require('./routes/post'));
 app.use('/t', require('./routes/tags'));
 
 app.get('/', function (req, res) {
-    let posts = Database.getPosts().map(p => Utils.processPost(p));
+    let posts = Database.getPosts().map(p => Utils.processPostView(p));
     let tags = res.locals.tags;
     return res.render('home', {
         posts,

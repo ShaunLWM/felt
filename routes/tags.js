@@ -14,7 +14,7 @@ router.get('/:tag', (req, res, next) => {
         return next();
     }
 
-    let posts = results.map(p => Utils.processPost(p)).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
+    let posts = results.map(p => Utils.processPostView(p)).sort((a, b) => (a.date > b.date) ? -1 : ((b.date > a.date) ? 1 : 0));
     let tags = res.locals.tags;
     return res.render('home', {
         title: res.locals.title,

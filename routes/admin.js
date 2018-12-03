@@ -4,6 +4,7 @@ const Database = require('../modules/Database');
 const randtoken = require('rand-token');
 const multer = require('multer');
 const config = require('../config');
+const Utils = require('../modules/Utils');
 
 let acceptedExtension = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'blob'];
 let accepted = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/svg+xml'];
@@ -50,31 +51,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
 });
 
 router.post('/new', (req, res) => {
-    let tags = req.body.tags || '';
-    if (tags.length > 0 && tags.includes(',')) {
-        tags = tags.split(',').filter(w => {
-            return w.length > 0;
-        });
-    } else {
-        if (tags.trim().length > 0) {
-            tags = [tags.trim()];
-        }
-    }
-
-    let date = Math.round((new Date()).getTime());
-    let title = req.body.title.trim();
-    let slug = slugify(title).trim();
-    let body = req.body.body.trim().replace(/class="fr-fic fr-dib"/g, 'class="fr-fic fr-dib materialboxed"');
-    let post = {
-        slug,
-        title,
-        date,
-        body,
-        tags
-
-    };
-
-    Database.addPost(post);
+    let post = Utils.processNewPost(req.body);
     return res.status(200).send(post);
 });
 

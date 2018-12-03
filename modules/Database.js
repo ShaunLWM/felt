@@ -7,7 +7,7 @@ class Database {
     constructor() {
         this.db = low(adapter);
         this.db._.mixin(lodashId);
-        this.db.defaults({ posts: [], tags: [], analytics: [] }).write();
+        this.db.defaults({ posts: [], tags: [], analytics: [], drafts: [] }).write();
     }
 
     addPost({ slug, title, date, body, tags }) {
@@ -25,6 +25,10 @@ class Database {
 
     getPosts(count = 5) {
         return this.db.get('posts').orderBy('date', ['desc']).take(count).value();
+    }
+
+    deletePost(id) {
+        return this.db.get('posts').remove({ id }).write();
     }
 
     processAnalytics(slug) {
@@ -68,6 +72,32 @@ class Database {
             this.processAnalytics(slug);
             return this.db.get('posts').find({ slug }).value();
         }
+    }
+
+    getDrafts() {
+        return this.db.get('drafts').orderBy('date', ['desc']).value();
+    }
+
+    saveDraft({ id, title, body, tags, scheduled = 0 }) {
+        let date = new Date().getTime();
+        let post = this.db.get('drafts').find({ id }).value();
+        if (typeof post === 'undefined') {
+            return this.db.get('drafts').push({
+                title, body, tags, date, scheduled
+            }).write();
+        }
+
+        return this.db.get('drafts').find({ id }).assign({ date, title, body, tags, scheduled }).write();
+    }
+
+    deleteDraft(id) {
+        return this.db.get('drafts').remove({ id }).write();
+    }
+
+    publicDraft(id) {
+        let post = this.db.get('drafts').find({ id }).value();
+        this.addPost(post);
+        return this.db.get('drafts').remove({ id }).write();
     }
 }
 
