@@ -27,8 +27,8 @@ let hbs = exphbs.create({
 });
 
 
-app.engine('.hbs', hbs.engine);
-app.set('view engine', '.hbs');
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
@@ -38,7 +38,6 @@ app.use(helmet());
 app.use(function (req, res, next) {
     let tags = Database.getAllTags();
     res.locals.tags = tags;
-    res.locals.helpers = hbs.helpers;
     res.locals.title = config.title;
     return next();
 });
@@ -53,7 +52,6 @@ app.get('/', function (req, res) {
     return res.render('home', {
         posts,
         tags,
-        helpers: res.locals.helpers,
         title: res.locals.title
     });
 });

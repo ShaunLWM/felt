@@ -19,8 +19,7 @@ router.get('/:slug', (req, res, next) => {
     return res.render('home', {
         title: res.locals.title,
         posts,
-        tags,
-        helpers: res.locals.helpers
+        tags
     });
 });
 
