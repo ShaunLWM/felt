@@ -73,6 +73,7 @@ $(document).ready(function () {
 
         error.text("").css("display", "hidden");
         $("input").attr("disabled", true);
+        $("#editor").froalaEditor("edit.off");
         $.post("/admin/new", {
             tags, title, body
         }, function (data) {
@@ -82,6 +83,7 @@ $(document).ready(function () {
             }, 5000);
         }).fail(function (data) {
             $("input").attr("disabled", false);
+            $("#editor").froalaEditor("edit.on");
             alert(data);
         });
     });
