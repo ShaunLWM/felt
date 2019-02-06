@@ -1,6 +1,15 @@
 {
+  "name": "felt",
+  "version": "0.0.1",
+  "main": "app.js",
+  "repository": "https://github.com/ShaunLWM/felt.git",
+  "author": "ShaunLWM <shaunlimweimin@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
-    "@sindresorhus/slugify": "^0.6.0",
+    "@sindresorhus/slugify": "^0.8.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "escape-html": "^1.0.3",
@@ -11,6 +20,7 @@
     "lowdb": "^1.0.0",
     "moment": "^2.22.2",
     "multer": "^1.4.1",
-    "rand-token": "^0.4.0"
+    "rand-token": "^0.4.0",
+    "timeago.js": "^4.0.0-beta.1"
   }
 }

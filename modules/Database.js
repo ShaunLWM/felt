@@ -24,6 +24,10 @@ class Database {
     }
 
     getPosts(count = 5) {
+        if (count === 0) {
+            return this.db.get('posts').orderBy('date', ['desc']).value();
+        }
+
         return this.db.get('posts').orderBy('date', ['desc']).take(count).value();
     }
 
@@ -74,8 +78,18 @@ class Database {
         }
     }
 
-    getDrafts() {
+    getDrafts(removeSchedule = false) {
+        if (removeSchedule) {
+            return this.db.get('drafts').orderBy('date', ['desc']).filter({ scheduled: 0 }).value();
+        }
+
         return this.db.get('drafts').orderBy('date', ['desc']).value();
+    }
+
+    getScheduled() {
+        return this.db._.remove(this.db.get('drafts').orderBy('date', ['desc']).value(), function (n) {
+            return n.scheduled === 0;
+        }); // remove those that are not scheduled post
     }
 
     saveDraft({ id, title, body, tags, scheduled = 0 }) {

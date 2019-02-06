@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const escape = require('escape-html');
+const timeago = require("timeago.js");
 
 const Utils = require('./modules/Utils');
 const config = require('./config');
@@ -15,7 +16,13 @@ let hbs = exphbs.create({
     defaultLayout: 'main',
     extname: '.hbs',
     helpers: {
-        escape: function (v) { return escape(v) }
+        escape: function (v) { return escape(v) },
+        removeTruncate: function (v) {
+            return v.replace(/<(.|\n)*?>/g, '').substring(0, 100) + ' ...';
+        },
+        formatTimeAgo: function(v) {
+            return timeago().format(v);
+        }
     }
 });
 

@@ -10,3 +10,47 @@
 </button>
 
 <span id="error_text" class="error" style="display:hidden;"></span>
+
+<p></p>
+
+<div class="row">
+    <div class="col s12">
+        <ul class="tabs">
+            <li class="tab col s3"><a href="#posts" class="active">Posts</a></li>
+            <li class="tab col s3"><a href="#drafts">Drafts</a></li>
+            <li class="tab col s3"><a href="#scheduled">Scheduled</a></li>
+            <li class="tab col s3"><a href="#settings">Test 4</a></li>
+        </ul>
+    </div>
+    <div id="posts" class="col s12">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item Name</th>
+                    <th>Item Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each posts}}
+                <tr>
+                    <td>
+                        <label>
+                            <input data-slug="{{slug}}" type="checkbox" name="checkbox_post_action" />
+                            <span></span>
+                        </label>
+                    </td>
+                    <td>
+                        <p class="truncate">{{{removeTruncate body}}}</p>
+                    </td>
+                    <td>{{{formatTimeAgo date}}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div id="drafts" class="col s12">Test 2</div>
+    <div id="scheduled" class="col s12">Test 3</div>
+    <div id="settings" class="col s12">Test 4</div>
+</div>
