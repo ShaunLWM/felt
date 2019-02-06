@@ -20,7 +20,7 @@ let hbs = exphbs.create({
         removeTruncate: function (v) {
             return v.replace(/<(.|\n)*?>/g, '').substring(0, 100) + ' ...';
         },
-        formatTimeAgo: function(v) {
+        formatTimeAgo: function (v) {
             return timeago().format(v);
         }
     }
@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(helmet());
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     let tags = Database.getAllTags();
     res.locals.tags = tags;
     res.locals.title = config.title;
@@ -46,7 +46,7 @@ app.use('/admin', require('./routes/admin'));
 app.use('/p', require('./routes/post'));
 app.use('/t', require('./routes/tags'));
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     let posts = Database.getPosts().map(p => Utils.processPostView(p));
     let tags = res.locals.tags;
     return res.render('home', {
@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
     });
 });
 
-app.use(function (req, res) {
+app.use((req, res) => {
     return res.status(404).render('404');
 });
 

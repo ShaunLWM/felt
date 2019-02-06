@@ -1,5 +1,4 @@
 const express = require('express');
-const slugify = require('@sindresorhus/slugify');
 const Database = require('../modules/Database');
 const randtoken = require('rand-token');
 const multer = require('multer');
@@ -10,16 +9,16 @@ let acceptedExtension = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'blob'];
 let accepted = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/svg+xml'];
 
 let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: (req, file, cb) => {
         return cb(null, `${__dirname}/../public/img/`);
     },
-    filename: function (req, file, cb) {
+    filename: (req, file, cb) => {
         let f = file.originalname.split('.').pop();
         return cb(null, `${randtoken.generate(16)}${Date.now()}.${f.toLowerCase()}`);
     }
 });
 
-let fileFilter = function fileFilter(req, file, cb) {
+let fileFilter = function (req, file, cb) {
     let f = file.originalname.split('.');
     if (f.length < 1) { // no extension
         return cb(null, false);
@@ -32,7 +31,7 @@ let fileFilter = function fileFilter(req, file, cb) {
 const upload = multer({ storage, fileFilter });
 let router = express.Router();
 
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
     if (typeof req.query.u !== 'undefined' && req.query.u == config.admin.username && typeof req.query.p !== 'undefined' && req.query.p == config.admin.password) {
         return res.render('admin', {
             title: res.locals.title,
