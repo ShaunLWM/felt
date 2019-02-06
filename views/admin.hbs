@@ -19,7 +19,7 @@
             <li class="tab col s3"><a href="#posts" class="active">Posts</a></li>
             <li class="tab col s3"><a href="#drafts">Drafts</a></li>
             <li class="tab col s3"><a href="#scheduled">Scheduled</a></li>
-            <li class="tab col s3"><a href="#settings">Test 4</a></li>
+            <li class="tab col s3"><a href="#settings">Settings</a></li>
         </ul>
     </div>
     <div id="posts" class="col s12">
@@ -52,5 +52,26 @@
     </div>
     <div id="drafts" class="col s12">Test 2</div>
     <div id="scheduled" class="col s12">Test 3</div>
-    <div id="settings" class="col s12">Test 4</div>
+    <div id="settings" class="col s12">
+        <table>
+            {{#if avatar}}
+            <tr>
+                <td>Current: </td>
+                <td><img src="/img/{{avatar}}" style="width:100px" /></td>
+            </tr>
+            {{/if}}
+            <tr>
+                <td>
+                    <form method="post" enctype="multipart/form-data" action="/admin/avatar">
+                        <input id="fileUpload" type="file" name="file-avatar" />
+                        <div id="image-holder"></div>
+                        <button class="btn waves-effect waves-light" type="submit" name="action" id="button-upload-photos">Upload
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
 </div>

@@ -4,6 +4,7 @@ const randtoken = require("rand-token");
 const multer = require("multer");
 const config = require("../config");
 const Utils = require("../modules/Utils");
+const fs = require("fs-extra");
 
 let acceptedExtension = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
 let accepted = ["image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/svg+xml"];
@@ -33,11 +34,14 @@ let router = express.Router();
 
 router.get("/", (req, res, next) => {
     if (typeof req.query.u !== "undefined" && req.query.u == config.admin.username && typeof req.query.p !== "undefined" && req.query.p == config.admin.password) {
+        let avatar = Database.getConfig("avatar");
+        console.log(avatar);
         return res.render("admin", {
             title: res.locals.title,
             posts: Database.getPosts(),
             drafts: Database.getDrafts(),
-            scheduled: Database.getScheduled()
+            scheduled: Database.getScheduled(),
+            avatar
         });
     }
 
@@ -49,6 +53,15 @@ router.post("/upload", upload.single("image"), (req, res) => {
         return res.status(404).json({ message: "Image failed to upload" });
     }
 
+    return res.status(200).json({ link: `${config.host}:${config.port}/img/${req.file.filename}` });
+});
+
+router.post("/avatar", upload.single("file-avatar"), (req, res) => {
+    if (typeof req.file === "undefined" || req.file === null) {
+        return res.status(404).json({ message: "Image failed to upload" });
+    }
+
+    Database.editConfig("avatar", req.file.filename);
     return res.status(200).json({ link: `${config.host}:${config.port}/img/${req.file.filename}` });
 });
 

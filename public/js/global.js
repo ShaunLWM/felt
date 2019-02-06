@@ -1,6 +1,39 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#fileUpload").on("change", function () {
+        let countFiles = $(this)[0].files.length;
+        let imgPath = $(this).value;
+        let extn = imgPath.substring(imgPath.lastIndexOf(".") + 1).toLowerCase();
+        let image_holder = $("#image-holder");
+        image_holder.empty();
+        let allowedExtensions = ["gif", "png", "jpg", "jpeg"];
+        if (!allowedExtensions.includes(extn)) {
+            return alert(`allowed filetypes: ${JSON.stringify(allowedExtensions)}`);
+        }
+
+        if (typeof FileReader === "undefined") {
+            return alert("This browser does not support FileReader.");
+        }
+
+        for (let i = 0; i < countFiles; i++) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $("<img />", {
+                    "src": e.target.result,
+                    "class": "thumb-image",
+                    "style": "width: 100px"
+                }).appendTo(image_holder);
+            }
+
+            image_holder.show();
+            reader.readAsDataURL($(this)[0].files[i]);
+            // $("#button-upload-photos").on("click", function () {
+
+            // });
+        }
+    });
+
     $("#editor").froalaEditor({
         // Set the image upload parameter.
         imageUploadParam: "image",

@@ -52,7 +52,8 @@ app.get("/", (req, res) => {
     return res.render("home", {
         posts,
         tags,
-        title: res.locals.title
+        title: res.locals.title,
+        avatar: Database.getConfig("avatar")
     });
 });
 
@@ -68,7 +69,8 @@ app.get("/page/:pageNumber", (req, res) => {
     return res.render("home", {
         posts,
         tags,
-        title: res.locals.title
+        title: res.locals.title,
+        avatar: Database.getConfig("avatar")
     });
 });
 

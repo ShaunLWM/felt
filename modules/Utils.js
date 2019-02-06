@@ -1,14 +1,14 @@
-const moment = require('moment');
+const moment = require("moment");
 const slugify = require("@sindresorhus/slugify");
-const escape = require('escape-html');
-const Database = require('./Database');
+const escape = require("escape-html");
+const Database = require("./Database");
 const _ = require("lodash");
 
 module.exports = {
     processNewPost: function (opts) {
-        let tags = opts["tags"] || '';
-        if (tags.length > 0 && tags.includes(',')) {
-            tags = tags.split(',').filter(w => {
+        let tags = opts["tags"] || "";
+        if (tags.length > 0 && tags.includes(",")) {
+            tags = tags.split(",").filter(w => {
                 return w.length > 0;
             });
         } else {
@@ -20,7 +20,7 @@ module.exports = {
         let date = Math.round((new Date()).getTime());
         let title = opts["title"].trim();
         let slug = slugify(title).trim();
-        let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, 'class="fr-fic fr-dib materialboxed"');
+        let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, `class="fr-fic fr-dib materialboxed"`);
         let post = {
             slug,
             title,
@@ -35,15 +35,15 @@ module.exports = {
     processPostView: function (p) {
         return {
             ...p,
-            date: moment(p.date).format('MMMM Do YYYY, h:mm a'),
-            tags: p.tags.length < 1 ? 'none' : (p.tags.reduce((accu, curr, i, arr) => {
+            date: moment(p.date).format("MMMM Do YYYY, h:mm a"),
+            tags: p.tags.length < 1 ? "none" : (p.tags.reduce((accu, curr, i, arr) => {
                 accu += `<a href="/t/${curr}">${escape(curr)}</a>`;
                 if (i < (arr.length - 1)) {
-                    accu += ', '
+                    accu += ", "
                 }
 
                 return accu;
-            }, ''))
+            }, ""))
         }
     },
     getPaginatedItems: function (items, page, pageSize) {

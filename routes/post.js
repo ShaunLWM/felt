@@ -19,7 +19,8 @@ router.get("/:slug", (req, res, next) => {
     return res.render("home", {
         title: res.locals.title,
         posts,
-        tags
+        tags,
+        avatar: Database.getConfig("avatar")
     });
 });
 
