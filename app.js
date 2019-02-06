@@ -47,7 +47,23 @@ app.use('/p', require('./routes/post'));
 app.use('/t', require('./routes/tags'));
 
 app.get('/', (req, res) => {
-    let posts = Database.getPosts().map(p => Utils.processPostView(p));
+    let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));
+    let tags = res.locals.tags;
+    return res.render('home', {
+        posts,
+        tags,
+        title: res.locals.title
+    });
+});
+
+app.get('/page/:pageNumber', (req, res) => {
+    let pageNumber = req.params["pageNumber"];
+    if (!/^\d+$/g.test(pageNumber)) {
+        pageNumber = 1;
+    }
+
+    let page = parseInt(pageNumber);
+    let posts = Utils.getPaginatedItems(Database.getPosts(), page).map(p => Utils.processPostView(p));
     let tags = res.locals.tags;
     return res.render('home', {
         posts,

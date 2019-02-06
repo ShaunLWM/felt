@@ -86,7 +86,7 @@ $(document).ready(function () {
         });
     });
 
-    $('input[name="checkbox_post_action"]').change(function() {
+    $('input[name="checkbox_post_action"]').change(function () {
         console.log($(this).data('slug'));
     });
 });

@@ -1,6 +1,7 @@
 const moment = require('moment');
 const escape = require('escape-html');
 const Database = require('./Database');
+const _ = require("lodash");
 
 module.exports = {
     processNewPost: function (body) {
@@ -14,7 +15,7 @@ module.exports = {
                 tags = [tags.trim()];
             }
         }
-    
+
         let date = Math.round((new Date()).getTime());
         let title = body.title.trim();
         let slug = slugify(title).trim();
@@ -26,7 +27,7 @@ module.exports = {
             body,
             tags
         };
-    
+
         Database.addPost(post);
         return post;
     },
@@ -43,5 +44,19 @@ module.exports = {
                 return accu;
             }, ''))
         }
+    },
+    getPaginatedItems: function (items, page, pageSize) {
+        let pg = page || 1,
+            pgSize = pageSize || 5,
+            offset = (pg - 1) * pgSize,
+            pagedItems = _.drop(items, offset).slice(0, pgSize);
+        return pagedItems;
+        // return {
+        //     page: pg,
+        //     pageSize: pgSize,
+        //     total: items.length,
+        //     total_pages: Math.ceil(items.length / pgSize),
+        //     data: pagedItems
+        // };
     }
 }

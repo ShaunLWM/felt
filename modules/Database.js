@@ -23,13 +23,10 @@ class Database {
         return this.db.get('tags').orderBy('u', ['desc']).value();
     }
 
-    getPosts(count = 5) {
-        if (count === 0) {
-            return this.db.get('posts').orderBy('date', ['desc']).value();
-        }
-
-        return this.db.get('posts').orderBy('date', ['desc']).take(count).value();
+    getPosts() {
+        return this.db.get('posts').orderBy('date', ['desc']).value();
     }
+
 
     deletePost(id) {
         return this.db.get('posts').remove({ id }).write();
