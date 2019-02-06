@@ -1,38 +1,38 @@
 $(document).ready(function () {
     M.AutoInit();
 
-    $('#editor').froalaEditor({
+    $("#editor").froalaEditor({
         // Set the image upload parameter.
-        imageUploadParam: 'image',
+        imageUploadParam: "image",
 
         // Set the image upload URL.
-        imageUploadURL: '/admin/upload',
+        imageUploadURL: "/admin/upload",
 
         // Additional upload params.
-        imageUploadParams: { id: 'my_editor' },
+        imageUploadParams: { id: "my_editor" },
 
         // Set request type.
-        imageUploadMethod: 'POST',
+        imageUploadMethod: "POST",
 
         // Set max image size to 5MB.
         imageMaxSize: 5 * 1024 * 1024,
 
         // Allow to upload PNG and JPG.
-        imageAllowedTypes: ['jpeg', 'jpg', 'png']
+        imageAllowedTypes: ["jpeg", "jpg", "png"]
     })
-        .on('froalaEditor.image.beforeUpload', function (e, editor, images) {
+        .on("froalaEditor.image.beforeUpload", function (e, editor, images) {
             // Return false if you want to stop the image upload.
         })
-        .on('froalaEditor.image.uploaded', function (e, editor, response) {
+        .on("froalaEditor.image.uploaded", function (e, editor, response) {
             // Image was uploaded to the server.
         })
-        .on('froalaEditor.image.inserted', function (e, editor, $img, response) {
+        .on("froalaEditor.image.inserted", function (e, editor, $img, response) {
             // Image was inserted in the editor.
         })
-        .on('froalaEditor.image.replaced', function (e, editor, $img, response) {
+        .on("froalaEditor.image.replaced", function (e, editor, $img, response) {
             // Image was replaced in the editor.
         })
-        .on('froalaEditor.image.error', function (e, editor, error, response) {
+        .on("froalaEditor.image.error", function (e, editor, error, response) {
             // Bad link.
             if (error.code == 1) { }
 
@@ -57,36 +57,36 @@ $(document).ready(function () {
             // Response contains the original server response to the request if available.
         });
 
-    $('#submit').on('click', function (e) {
-        let error = $('#error_text');
+    $("#submit").on("click", function (e) {
+        let error = $("#error_text");
         e.preventDefault();
-        let tags = $('#post_tags').val().trim();
-        let title = $('#post_title').val().trim();
-        let body = $('#editor').val();
+        let tags = $("#post_tags").val().trim();
+        let title = $("#post_title").val().trim();
+        let body = $("#editor").val();
         if (title.length < 1) {
-            return error.text('Title cannot be empty').css('display', 'block');
+            return error.text("Title cannot be empty").css("display", "block");
         }
 
         if (body.length < 1) {
-            return error.text('Content cannot be empty').css('display', 'block');
+            return error.text("Content cannot be empty").css("display", "block");
         }
 
-        error.text('').css('display', 'hidden');
-        $('input').attr('disabled', true);
+        error.text("").css("display", "hidden");
+        $("input").attr("disabled", true);
         $.post("/admin/new", {
             tags, title, body
         }, function (data) {
-            M.toast({ html: 'Successfully posted. Refreshing in 5s..', duration: 10000 });
+            M.toast({ html: "Successfully posted. Refreshing in 5s..", duration: 10000 });
             setTimeout(() => {
                 location.reload();
             }, 5000);
         }).fail(function (data) {
-            $('input').attr('disabled', false);
+            $("input").attr("disabled", false);
             alert(data);
         });
     });
 
     $('input[name="checkbox_post_action"]').change(function () {
-        console.log($(this).data('slug'));
+        console.log($(this).data("slug"));
     });
 });
