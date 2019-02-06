@@ -1,11 +1,12 @@
 const moment = require('moment');
+const slugify = require("@sindresorhus/slugify");
 const escape = require('escape-html');
 const Database = require('./Database');
 const _ = require("lodash");
 
 module.exports = {
-    processNewPost: function (body) {
-        let tags = body.tags || '';
+    processNewPost: function (opts) {
+        let tags = opts["tags"] || '';
         if (tags.length > 0 && tags.includes(',')) {
             tags = tags.split(',').filter(w => {
                 return w.length > 0;
@@ -17,9 +18,9 @@ module.exports = {
         }
 
         let date = Math.round((new Date()).getTime());
-        let title = body.title.trim();
+        let title = opts["title"].trim();
         let slug = slugify(title).trim();
-        let body = body.body.trim().replace(/class="fr-fic fr-dib"/g, 'class="fr-fic fr-dib materialboxed"');
+        let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, 'class="fr-fic fr-dib materialboxed"');
         let post = {
             slug,
             title,

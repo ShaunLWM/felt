@@ -76,4 +76,4 @@ app.use((req, res) => {
     return res.status(404).render("404");
 });
 
-app.listen(config.port, () => console.log(`Blog listening on port ${config.port}!`))
+app.listen(config.port, () => console.log(`[@] felt listening on port ${config.port}!`))
