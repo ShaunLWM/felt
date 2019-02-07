@@ -19,13 +19,18 @@
             <div class="card-content">
                 <p>
                     {{#if avatar}}
-                    <img src="/img/{{avatar}}" style="width:100px" />
+                    <img src="/img/{{avatar}}" style="width:100px" class="circle responsive-img" />
+                    {{/if}}
+                </p>
+                <p>
+                    {{#if aboutMe}}
+                    {{aboutMe}}
                     {{/if}}
                 </p>
             </div>
             <div class="card-tabs">
                 <ul class="tabs tabs-fixed-width">
-                    <li class="tab"><a href="#archives">Archive</a></li>
+                    <li class="tab"><a href="#archives">Archives</a></li>
                     <li class="tab"><a class="active" href="#about">About</a></li>
                     <li class="tab"><a href="#tags">Tags</a></li>
                 </ul>

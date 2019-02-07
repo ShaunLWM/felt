@@ -1,6 +1,15 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#button-update-aboutme").on("click", function (e) {
+        e.preventDefault();
+        $.post("/admin/update/aboutme", { aboutMe: $("#textarea-about-me").val() }, function () {
+            location.reload();
+        }).fail(function (e) {
+            alert(JSON.stringify(e));
+        });
+    });
+
     $("#fileUpload").on("change", function () {
         let currentFile = $(this)[0].files[0];
         let imgPath = $(this)[0].value;
@@ -32,7 +41,7 @@ $(document).ready(function () {
             let formData = new FormData();
             formData.append("file-avatar", currentFile);
             $.ajax({
-                url: "/admin/avatar",
+                url: "/admin/update/avatar",
                 type: "POST",
                 data: formData,
                 contentType: false,

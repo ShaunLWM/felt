@@ -34,14 +34,13 @@ let router = express.Router();
 
 router.get("/", (req, res, next) => {
     if (typeof req.query.u !== "undefined" && req.query.u == config.admin.username && typeof req.query.p !== "undefined" && req.query.p == config.admin.password) {
-        let avatar = Database.getConfig("avatar");
-        console.log(avatar);
         return res.render("admin", {
             title: res.locals.title,
             posts: Database.getPosts(),
             drafts: Database.getDrafts(),
             scheduled: Database.getScheduled(),
-            avatar
+            avatar: Database.getConfig("avatar"),
+            aboutMe: Database.getConfig("aboutMe")
         });
     }
 
@@ -56,7 +55,7 @@ router.post("/upload", upload.single("image"), (req, res) => {
     return res.status(200).json({ link: `${config.host}:${config.port}/img/${req.file.filename}` });
 });
 
-router.post("/avatar", upload.single("file-avatar"), (req, res) => {
+router.post("/update/avatar", upload.single("file-avatar"), (req, res) => {
     if (typeof req.file === "undefined" || req.file === null) {
         return res.status(404).json({ message: "Image failed to upload" });
     }
@@ -68,6 +67,12 @@ router.post("/avatar", upload.single("file-avatar"), (req, res) => {
 router.post("/new", (req, res) => {
     let post = Utils.processNewPost(req.body);
     return res.status(200).send(post);
+});
+
+router.post("/update/aboutme", (req, res) => {
+    let aboutMe = req.body["aboutMe"].trim();
+    Database.editConfig("aboutMe", aboutMe);
+    return res.status(200).json({ success: true });
 });
 
 module.exports = router;

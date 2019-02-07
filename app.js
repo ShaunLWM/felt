@@ -53,7 +53,8 @@ app.get("/", (req, res) => {
         posts,
         tags,
         title: res.locals.title,
-        avatar: Database.getConfig("avatar")
+        avatar: Database.getConfig("avatar"),
+        aboutMe: Database.getConfig("aboutMe")
     });
 });
 
@@ -70,7 +71,8 @@ app.get("/page/:pageNumber", (req, res) => {
         posts,
         tags,
         title: res.locals.title,
-        avatar: Database.getConfig("avatar")
+        avatar: Database.getConfig("avatar"),
+        aboutMe: Database.getConfig("aboutMe")
     });
 });
 

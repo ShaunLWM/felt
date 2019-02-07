@@ -20,7 +20,8 @@ router.get("/:slug", (req, res, next) => {
         title: res.locals.title,
         posts,
         tags,
-        avatar: Database.getConfig("avatar")
+        avatar: Database.getConfig("avatar"),
+        aboutMe: Database.getConfig("aboutMe")
     });
 });
 
