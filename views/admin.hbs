@@ -54,23 +54,20 @@
     <div id="scheduled" class="col s12">Test 3</div>
     <div id="settings" class="col s12">
         <table>
-            {{#if avatar}}
             <tr>
-                <td>Current: </td>
-                <td><img src="/img/{{avatar}}" style="width:100px" /></td>
-            </tr>
-            {{/if}}
-            <tr>
-                <td>
-                    <form method="post" enctype="multipart/form-data" action="/admin/avatar">
-                        <input id="fileUpload" type="file" name="file-avatar" />
-                        <div id="image-holder"></div>
-                        <button class="btn waves-effect waves-light" type="submit" name="action" id="button-upload-photos">Upload
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </form>
+
+                <td>Current:
+                    {{#if avatar}}
+                    <img src="/img/{{avatar}}" style="width:100px" />
+                    {{/if}}
                 </td>
-                <td></td>
+                <td>
+                    <input id="fileUpload" type="file" name="file-avatar" />
+                    <div id="image-holder"></div>
+                </td>
+                <td> <button class="btn waves-effect waves-light" type="submit" name="action" id="button-upload-photos">Upload
+                        <i class="material-icons right">send</i>
+                    </button></td>
             </tr>
         </table>
     </div>
