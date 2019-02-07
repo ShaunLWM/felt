@@ -3,7 +3,7 @@
         {{#each posts}}
         <div class="post">
             <h5><a href="/p/{{slug}}">{{title}}</a></h5>
-            <p>Date: {{date}}</p>
+            <p><small class="tooltipped" data-position="bottom" data-tooltip="{{date}}">{{unix}}</small></p>
             <p>{{{body}}}</p>
             <p>Tags: {{{tags}}}</p>
         </div>

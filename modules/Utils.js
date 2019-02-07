@@ -3,6 +3,7 @@ const slugify = require("@sindresorhus/slugify");
 const escape = require("escape-html");
 const Database = require("./Database");
 const _ = require("lodash");
+const timeago = require("timeago.js");
 
 module.exports = {
     processNewPost: function (opts) {
@@ -35,6 +36,7 @@ module.exports = {
     processPostView: function (p) {
         return {
             ...p,
+            unix: timeago().format(p.date),
             date: moment(p.date).format("MMMM Do YYYY, h:mm a"),
             tags: p.tags.length < 1 ? "none" : (p.tags.reduce((accu, curr, i, arr) => {
                 accu += `<a href="/t/${curr}">${escape(curr)}</a>`;
