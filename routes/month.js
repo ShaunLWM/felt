@@ -5,7 +5,7 @@ const moment = require("moment");
 let router = express.Router();
 
 router.get("^/:mmyy([0-9]{4})", (req, res, next) => {
-    let mmyy = req.params.mmyy;
+    let mmyy = req.params["mmyy"];
     let posts = Utils.getPaginatedItems(Database.getPosts().filter(p => {
         let postDate = moment(p["date"]).format("MMYY");
         return postDate === mmyy;
@@ -29,7 +29,7 @@ router.get("^/:mmyy([0-9]{4})/:pageNumber", (req, res, next) => {
     }
 
     let page = parseInt(pageNumber);
-    let mmyy = req.params.mmyy;
+    let mmyy = req.params["mmyy"];
     let posts = Utils.getPaginatedItems(Database.getPosts().filter(p => {
         let postDate = moment(p["date"]).format("MMYY");
         return postDate === mmyy;
