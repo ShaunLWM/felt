@@ -36,9 +36,12 @@ app.use(cors());
 app.use(helmet());
 
 app.use((req, res, next) => {
-    let tags = Database.getAllTags();
-    res.locals.tags = tags;
     res.locals.title = config.title;
+    if (typeof app.locals.tags === "undefined") {
+        console.log("[@] forcing tags refresh");
+        app.locals.tags = Database.getAllTags();
+    }
+
     if (typeof app.locals.postsArchives === "undefined") {
         console.log("[@] forcing posts archives refresh");
         app.locals.postsArchives = Database.parseHomepageArchives();
@@ -50,6 +53,7 @@ app.use((req, res, next) => {
 app.use("/admin", require("./routes/admin"));
 app.use("/p", require("./routes/post"));
 app.use("/t", require("./routes/tags"));
+app.use("/m", require("./routes/month"));
 
 app.get("/", (req, res) => {
     let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));
