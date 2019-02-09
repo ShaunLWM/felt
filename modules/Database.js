@@ -2,6 +2,7 @@ const low = require("lowdb")
 const FileSync = require("lowdb/adapters/FileSync")
 const adapter = new FileSync("db.json");
 const lodashId = require("lodash-id");
+const moment = require("moment");
 
 class Database {
     constructor() {
@@ -121,6 +122,25 @@ class Database {
         }
 
         return config[key];
+    }
+
+    parseHomepageArchives() {
+        let months = [];
+        this.db.get("posts").value().map(p => {
+            let month = moment(p["date"]).format("MMMM YYYY");
+            let index = months.findIndex(m => {
+                return m["name"] === month;
+            });
+
+            if (index < 0) {
+                let url = moment(p["date"]).format("MMYY");
+                return months.push({ name: month, count: 1, url })
+            }
+
+            return months[index]["count"] += 1;
+        });
+
+        return months;
     }
 }
 

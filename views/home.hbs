@@ -36,7 +36,15 @@
                 </ul>
             </div>
             <div class="card-content grey lighten-4">
-                <div id="archives">Test 1</div>
+                <div id="archives">
+                    {{#if archives}}
+                    <ul>
+                        {{#each archives}}
+                        <li><a href="/m/{{this.url}}">{{this.name}}</a> ({{this.count}})</li>
+                        {{/each}}
+                    </ul>
+                    {{/if}}
+                </div>
                 <div id="about">Test 2</div>
                 <div id="tags">
                     {{#each tags}}

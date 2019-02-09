@@ -21,7 +21,8 @@ router.get("/:slug", (req, res, next) => {
         posts,
         tags,
         avatar: Database.getConfig("avatar"),
-        aboutMe: Database.getConfig("aboutMe")
+        aboutMe: Database.getConfig("aboutMe"),
+        archives: req.app.locals.postsArchives
     });
 });
 

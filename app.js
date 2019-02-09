@@ -39,6 +39,11 @@ app.use((req, res, next) => {
     let tags = Database.getAllTags();
     res.locals.tags = tags;
     res.locals.title = config.title;
+    if (typeof app.locals.postsArchives === "undefined") {
+        console.log("[@] forcing posts archives refresh");
+        app.locals.postsArchives = Database.parseHomepageArchives();
+    }
+
     return next();
 });
 
@@ -54,7 +59,8 @@ app.get("/", (req, res) => {
         tags,
         title: res.locals.title,
         avatar: Database.getConfig("avatar"),
-        aboutMe: Database.getConfig("aboutMe")
+        aboutMe: Database.getConfig("aboutMe"),
+        archives: req.app.locals.postsArchives
     });
 });
 
@@ -72,7 +78,8 @@ app.get("/page/:pageNumber", (req, res) => {
         tags,
         title: res.locals.title,
         avatar: Database.getConfig("avatar"),
-        aboutMe: Database.getConfig("aboutMe")
+        aboutMe: Database.getConfig("aboutMe"),
+        archives: req.app.locals.postsArchives
     });
 });
 
