@@ -3,13 +3,15 @@ const Utils = require("../modules/Utils");
 const express = require("express");
 let router = express.Router();
 
-router.get("/:tag", (req, res, next) => {
+router.get("/:tag/:pageNumber([0-9]*)?", (req, res, next) => {
+    let pageNumber = req.params["pageNumber"] || 1;
+    let page = parseInt(pageNumber);
     let tag = req.params.tag;
     if (typeof tag === "undefined" || tag.length < 1) {
         return next();
     }
 
-    let results = Database.findPost({ tag: tag.trim() });
+    let results = Utils.getPaginatedItems(Database.findPost({ tag: tag.trim() }), page);
     if (typeof results === "undefined" || results.length < 1) {
         return next();
     }
