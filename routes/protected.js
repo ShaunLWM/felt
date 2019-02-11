@@ -9,13 +9,13 @@ const cryptr = new Cryptr(config.passwordProtected.salt);
 let router = express.Router();
 
 router.get("/", (req, res) => {
-    if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && Utils.validatePasswordCookies(req.cookies["protected"])) {
-        return res.redirect("/");
+    if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && !Utils.validatePasswordCookies(req.cookies["protected"])) {
+        return res.render("protected", {
+            title: "Password Protected"
+        });
     }
 
-    return res.render("protected", {
-        title: "Password Protected"
-    });
+    return res.redirect("/");
 });
 
 router.get("/delete", (req, res) => {

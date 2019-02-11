@@ -87,7 +87,6 @@ module.exports = {
 
             let currentTime = Math.round((new Date()).getTime() / 1000);
             let cookieFutureTime = parseInt(cookieTime) + (60 * 60 * 24 * maxDays);
-            console.log(currentTime, cookieFutureTime);
             if (currentTime >= cookieFutureTime) { // user cookie expired
                 return false;
             }

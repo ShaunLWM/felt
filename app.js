@@ -57,11 +57,15 @@ app.use((req, res, next) => {
         return next();
     }
 
-    if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && Utils.validatePasswordCookies(req.cookies["protected"])) {
+    if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled) {
+        if (!Utils.validatePasswordCookies(req.cookies["protected"])) {
+            return res.redirect("/protected");
+        }
+
         return next();
     }
 
-    return res.redirect("/protected");
+    return next();
 });
 
 app.use("/admin", require("./routes/admin"));
