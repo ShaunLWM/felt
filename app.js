@@ -1,6 +1,7 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const helmet = require("helmet");
 const escape = require("escape-html");
@@ -30,6 +31,7 @@ let hbs = exphbs.create({
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.use(express.static("public"));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
@@ -50,10 +52,23 @@ app.use((req, res, next) => {
     return next();
 });
 
+app.use((req, res, next) => {
+    if (req.originalUrl === "/protected" || req.originalUrl.includes("/admin")) { // ignore /protected route only
+        return next();
+    }
+
+    if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && Utils.validatePasswordCookies(req.cookies["protected"])) {
+        return next();
+    }
+
+    return res.redirect("/protected");
+});
+
 app.use("/admin", require("./routes/admin"));
 app.use("/p", require("./routes/post"));
 app.use("/t", require("./routes/tags"));
 app.use("/m", require("./routes/month"));
+app.use("/protected", require("./routes/protected"));
 
 app.get("/", (req, res) => {
     let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));

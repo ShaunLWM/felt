@@ -1,6 +1,24 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#submit-password-protected").on("click", function (e) {
+        e.preventDefault();
+        let password = $("#password-protected").val();
+        if (password.length < 1) {
+            return alert("Password cannot be empty");
+        }
+
+        $.post("/protected", { password }, function () {
+            window.location.replace("/");
+        }).fail(function (e) {
+            if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
+                return alert(e["responseJSON"]["message"]);
+            }
+
+            return alert("Error submitting password");
+        });
+    })
+
     $("#button-update-aboutme").on("click", function (e) {
         e.preventDefault();
         $.post("/admin/update/aboutme", { aboutMe: $("#textarea-about-me").val() }, function () {

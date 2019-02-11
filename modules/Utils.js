@@ -4,6 +4,9 @@ const escape = require("escape-html");
 const Database = require("./Database");
 const _ = require("lodash");
 const timeago = require("timeago.js");
+const config = require("../config");
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(config.passwordProtected.salt);
 
 module.exports = {
     processNewPost: function (opts) {
@@ -61,5 +64,39 @@ module.exports = {
         //     total_pages: Math.ceil(items.length / pgSize),
         //     data: pagedItems
         // };
+    },
+    validatePasswordCookies: function (cookie) {
+        // cookie will be in "unix|password" format.
+        if (typeof cookie === "undefined") {
+            return false;
+        }
+
+        let maxDays = config.passwordProtected.maxDays;
+        try {
+            let decryptedCookie = cryptr.decrypt(cookie);
+            let match = /([0-9]{10})\|(.*?)$/g.exec(decryptedCookie);
+            if (match === null || match.length < 1) { // wrong cookie
+                return false;
+            }
+
+            let cookieTime = match[1];
+            let cookiePassword = match[2];
+            if (cookiePassword !== config.passwordProtected.password) { // password is changed by admin
+                return false;
+            }
+
+            let currentTime = Math.round((new Date()).getTime() / 1000);
+            let cookieFutureTime = parseInt(cookieTime) + (60 * 60 * 24 * maxDays);
+            console.log(currentTime, cookieFutureTime);
+            if (currentTime >= cookieFutureTime) { // user cookie expired
+                return false;
+            }
+
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+
     }
 }
