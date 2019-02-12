@@ -11,14 +11,14 @@ const cryptr = new Cryptr(config.passwordProtected.salt);
 module.exports = {
     processNewPost: function (opts) {
         let tags = opts["tags"] || "";
-        if (tags.length > 0 && tags.includes(",")) {
+        if (tags.length > 0 && tags.includes(",")) { // multiple tags with ","
             tags = tags.split(",").filter(w => {
                 return w.length > 0;
             });
-        } else {
-            if (tags.trim().length > 0) {
-                tags = [tags.trim()];
-            }
+        } else if (tags.trim().length > 0) { // only 1 word/tag
+            tags = [tags.trim()];
+        } else { // no tags at all
+            tags = [];
         }
 
         let date = Math.round((new Date()).getTime());
