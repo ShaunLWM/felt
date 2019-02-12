@@ -6,12 +6,14 @@ const cors = require("cors");
 const helmet = require("helmet");
 const escape = require("escape-html");
 const timeago = require("timeago.js");
+const fs = require("fs-extra");
 
 const Utils = require("./modules/Utils");
 const config = require("./config");
 
 let Database = require("./modules/Database");
 let app = express();
+fs.ensureDirSync("./public/img/");
 
 let hbs = exphbs.create({
     defaultLayout: "main",
