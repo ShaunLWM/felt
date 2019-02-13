@@ -30,7 +30,6 @@ let hbs = exphbs.create({
     }
 });
 
-
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.use(express.static("public"));
@@ -41,7 +40,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use((req, res, next) => {
-    res.locals.title = config.title;
+    res.locals.defaultTitle = config.title;
     if (typeof app.locals.tags === "undefined") {
         console.log("[@] forcing tags refresh");
         app.locals.tags = Database.getAllTags();
@@ -159,7 +158,8 @@ app.get("/", (req, res) => {
     return res.render("home", {
         posts,
         tags,
-        title: res.locals.title,
+        title: res.locals.defaultTitle,
+        defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
         aboutMe: Database.getConfig("aboutMe"),
         archives: req.app.locals.postsArchives
@@ -178,7 +178,8 @@ app.get("/page/:pageNumber", (req, res) => {
     return res.render("home", {
         posts,
         tags,
-        title: res.locals.title,
+        title: res.locals.defaultTitle,
+        defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
         aboutMe: Database.getConfig("aboutMe"),
         archives: req.app.locals.postsArchives

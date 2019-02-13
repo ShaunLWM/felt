@@ -17,9 +17,10 @@ router.get("/:slug", (req, res, next) => {
     let posts = [Utils.processPostView(results)];
     let tags = req.app.locals.tags;
     return res.render("home", {
-        title: res.locals.title,
         posts,
         tags,
+        title: posts[0]["title"],
+        defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
         aboutMe: Database.getConfig("aboutMe"),
         archives: req.app.locals.postsArchives

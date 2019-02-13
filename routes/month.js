@@ -17,7 +17,8 @@ router.get("^/:mmyy([0-9]{4})/:pageNumber([0-9]*)?", (req, res, next) => {
     return res.render("home", {
         posts,
         tags,
-        title: res.locals.title,
+        title: posts[0]["month"],
+        defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
         aboutMe: Database.getConfig("aboutMe"),
         archives: req.app.locals.postsArchives

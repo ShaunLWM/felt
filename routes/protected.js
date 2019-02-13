@@ -11,7 +11,8 @@ let router = express.Router();
 router.get("/", (req, res) => {
     if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && !Utils.validatePasswordCookies(req.cookies["protected"])) {
         return res.render("protected", {
-            title: "Password Protected"
+            title: "Password Protected",
+            defaultTitle: res.locals.defaultTitle
         });
     }
 
