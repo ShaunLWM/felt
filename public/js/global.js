@@ -1,6 +1,55 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#setup-input-protect-enabled").on("change", function (e) {
+        if (this.checked) {
+            $("#setup-input-protect-password").attr("disabled", false);
+            $("#setup-input-protect-salt").attr("disabled", false);
+            $("#setup-input-protect-days").attr("disabled", false);
+        } else {
+            $("#setup-input-protect-password").attr("disabled", true);
+            $("#setup-input-protect-salt").attr("disabled", true);
+            $("#setup-input-protect-days").attr("disabled", true);
+        }
+    });
+
+    $("#setup-button-submit").on("click", function (e) {
+        e.preventDefault();
+        let host = $("#setup-input-host").val();
+        let title = $("#setup-input-title").val();
+        let adminUsername = $("#setup-input-admin-username").val();
+        let adminPassword = $("#setup-input-admin-password").val();
+        let protectEnabled = $("#setup-input-protect-enabled").prop("checked");
+        let protectPassword = $("#setup-input-protect-password").val();
+        let protectSalt = $("#setup-input-protect-salt").val();
+        let protectDays = $("#setup-input-protect-days").val();
+        if (title.length < 1) {
+            return alert("Default title cannot be empty");
+        }
+
+        if (adminUsername.length < 1) {
+            return alert("Admin username cannot be empty");
+        }
+
+        if (adminPassword.length < 1) {
+            return alert("Admin password cannot be empty");
+        }
+
+        if (protectEnabled && protectPassword.length < 1) {
+            return alert("Password protect is enabled. Please enter a password.")
+        }
+
+        $.post("/setup", { host, title, adminUsername, adminPassword, protectEnabled, protectPassword, protectSalt, protectDays }, function () {
+            return window.location.replace("/");
+        }).fail(function (e) {
+            if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
+                return alert(e["responseJSON"]["message"]);
+            }
+
+            return alert("Error setting up");
+        });
+    });
+
     $("#submit-password-protected").on("click", function (e) {
         e.preventDefault();
         let password = $("#password-protected").val();
@@ -9,7 +58,7 @@ $(document).ready(function () {
         }
 
         $.post("/protected", { password }, function () {
-            window.location.replace("/");
+            return window.location.replace("/");
         }).fail(function (e) {
             if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
                 return alert(e["responseJSON"]["message"]);

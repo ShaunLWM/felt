@@ -1,15 +1,16 @@
 module.exports = {
-    title: "Life",
-    host: "http://localhost",
-    port: 8081,
-    admin: {
-        username: "1",
-        password: "2"
+    "setup": true,
+    "title": "Felt",
+    "host": "http://localhost",
+    "port": 8081,
+    "admin": {
+        "username": "admin",
+        "password": "sm3llycat"
     },
-    passwordProtected: {
-        enabled: true,
-        password: "1234",
-        salt: "Qjf*g#QhnOhyWwUqQn{R-ZB{+l)h}-v6%RULFR]B$eO<wCd@?(QY>S+8k~#,SU",
-        maxDays: 7
+    "passwordProtected": {
+        "enabled": true,
+        "password": "!LoveMyPiano",
+        "salt": "HhAIDCSuoUR4fxJP4QP8H8CVBTr8iKHCxL2V3tp6WLKujtdjcu",
+        "maxDays": 7
     }
 };
