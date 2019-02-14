@@ -13,3 +13,10 @@
 #error_text {
     margin-top: 5px;
 }
+
+.about-me-avatar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}

@@ -17,16 +17,9 @@
     <div class="col s12 l4">
         <div class="card">
             <div class="card-content">
-                <p>
-                    {{#if avatar}}
-                    <img src="/img/{{avatar}}" style="width:100px" class="circle responsive-img" />
-                    {{/if}}
-                </p>
-                <p>
-                    {{#if aboutMe}}
-                    {{aboutMe}}
-                    {{/if}}
-                </p>
+                {{#if avatar}}
+                <img src="/img/{{avatar}}" style="width:100px" class="circle responsive-img about-me-avatar" />
+                {{/if}}
             </div>
             <div class="card-tabs">
                 <ul class="tabs tabs-fixed-width">
@@ -43,15 +36,25 @@
                         <li><a href="/m/{{this.url}}">{{this.name}}</a> ({{this.count}})</li>
                         {{/each}}
                     </ul>
+                    {{else}}
+                    <p>
+                        No archives yet
+                    </p>
                     {{/if}}
                 </div>
-                <div id="about">Test 2</div>
+                <div id="about">
+                    {{#if aboutMe}}
+                    {{aboutMe}}
+                    {{else}}
+                    Welcome to my blog!
+                    {{/if}}
+                </div>
                 <div id="tags">
                     {{#each tags}}
                     <p><a href="/t/{{{escape v}}}">{{{escape v}}}</a> ({{c}})</p>
                     {{else}}
                     <p>
-                        <h5>No tags yet!</h5>
+                        No tags yet
                     </p>
                     {{/each}}
                 </div>

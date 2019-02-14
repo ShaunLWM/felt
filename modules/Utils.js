@@ -14,7 +14,7 @@ module.exports = {
         if (tags.length > 0 && tags.includes(",")) { // multiple tags with ","
             tags = tags.split(",").filter(w => {
                 return w.length > 0;
-            });
+            }).map(t => t.trim());
         } else if (tags.trim().length > 0) { // only 1 word/tag
             tags = [tags.trim()];
         } else { // no tags at all
