@@ -11,10 +11,10 @@ class Database {
         this.db.defaults({ config: {}, posts: [], tags: [], analytics: [], drafts: [] }).write();
     }
 
-    addPost({ slug, title, date, body, tags }) {
+    addPost({ slug, title, date, body, tags, status = 1 }) {
         this.db.get("posts").push({
             slug, title, date, body, tags,
-            status: 1 // 1 = posted, 2 = archived, 3 = drafts
+            status // 1 = posted, 2 = archived, 3 = drafts, 4 = scheduled
         }).write();
 
         this.processTags(tags);
@@ -80,40 +80,16 @@ class Database {
         }
     }
 
-    getDrafts(removeSchedule = false) {
-        if (removeSchedule) {
-            return this.db.get("drafts").orderBy("date", ["desc"]).filter({ scheduled: 0 }).value();
-        }
-
-        return this.db.get("drafts").orderBy("date", ["desc"]).value();
+    getDrafts() {
+        return this.db.get("posts").orderBy("date", ["desc"]).filter({ status: 3 }).value();
     }
 
     getScheduled() {
-        return this.db._.remove(this.db.get("drafts").orderBy("date", ["desc"]).value(), function (n) {
-            return n.scheduled === 0;
-        }); // remove those that are not scheduled post
+        return this.db.get("posts").orderBy("date", ["desc"]).filter({ status: 4 }).value();
     }
 
-    saveDraft({ id, title, body, tags, scheduled = 0 }) {
-        let date = new Date().getTime();
-        let post = this.db.get("drafts").find({ id }).value();
-        if (typeof post === "undefined") {
-            return this.db.get("drafts").push({
-                title, body, tags, date, scheduled
-            }).write();
-        }
-
-        return this.db.get("drafts").find({ id }).assign({ date, title, body, tags, scheduled }).write();
-    }
-
-    deleteDraft(id) {
-        return this.db.get("drafts").remove({ id }).write();
-    }
-
-    publicDraft(id) {
-        let post = this.db.get("drafts").find({ id }).value();
-        this.addPost(post);
-        return this.db.get("drafts").remove({ id }).write();
+    publicisePost(slug) {
+        return this.db.get("posts").find({ slug }).assign({ status: 1 }).write();
     }
 
     editConfig(key, value) {
