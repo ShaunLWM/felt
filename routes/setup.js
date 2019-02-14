@@ -37,6 +37,7 @@ router.post("/", (req, res) => {
         return res.status(400).json({ message: "Admin username cannot be empty" });
     }
 
+    protectEnabled = (protectEnabled === "true" ? 1 : 0);
     if (protectEnabled) {
         if (protectPassword.length < 1) {
             return res.status(400).json({ message: "Password protect is enabled. Please enter a password." });
@@ -66,7 +67,7 @@ router.post("/", (req, res) => {
             password: adminPassword
         },
         passwordProtected: {
-            enabled: new Boolean(protectEnabled),
+            enabled: Boolean(protectEnabled),
             password: protectPassword,
             salt: protectSalt,
             maxDays: protectDays

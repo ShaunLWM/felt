@@ -8,7 +8,7 @@ class Database {
     constructor() {
         this.db = low(adapter);
         this.db._.mixin(lodashId);
-        this.db.defaults({ config: {}, posts: [], tags: [], analytics: [], drafts: [] }).write();
+        this.db.defaults({ config: {}, posts: [], tags: [], analytics: [] }).write();
     }
 
     addPost({ slug, title, date, body, tags, status = 1 }) {
@@ -29,8 +29,16 @@ class Database {
         return this.db.get("posts").orderBy("date", ["desc"]).value();
     }
 
-    deletePost(id) {
-        return this.db.get("posts").remove({ id }).write();
+    getPost(slug) {
+        return this.db.get("posts").find({ slug }).value();
+    }
+
+    deletePost(slug) {
+        return this.db.get("posts").remove({ slug }).write();
+    }
+
+    editPostStatus({ slug, status }) {
+        return this.db.get("posts").find({ slug }).assign({ status }).write();
     }
 
     processAnalytics(slug) {
@@ -86,10 +94,6 @@ class Database {
 
     getScheduled() {
         return this.db.get("posts").orderBy("date", ["desc"]).filter({ status: 4 }).value();
-    }
-
-    publicisePost(slug) {
-        return this.db.get("posts").find({ slug }).assign({ status: 1 }).write();
     }
 
     editConfig(key, value) {

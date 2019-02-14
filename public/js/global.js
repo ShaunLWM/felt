@@ -11,6 +11,15 @@ $(document).ready(function () {
             case "panel-post-delete":
                 break;
             case "panel-post-archive":
+                $.post("/action", { action: "archive", slug }, () => {
+                    return $(this).parent().parent().remove();
+                }).fail(function (e) {
+                    if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
+                        return alert(e["responseJSON"]["message"]);
+                    }
+
+                    return alert("Error archiving post");
+                });
                 break;
         }
     });

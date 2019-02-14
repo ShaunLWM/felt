@@ -75,4 +75,24 @@ router.post("/update/aboutme", (req, res) => {
     return res.status(200).json({ success: true });
 });
 
+router.post("/action", (req, res) => {
+    if (typeof req.body["action"] === "undefined" || typeof req.body["slug"] === "undefined") {
+        return res.status(400).json({ message: "No action defined" });
+    }
+
+    let action = req.body["action"];
+    let slug = req.body["slug"];
+    switch (action) {
+        case "edit":
+            let post = Database.getPost(slug);
+            return res.status(200).json(post);
+        case "delete":
+            Database.deletePost(slug);
+            return res.status(200).json({ message: "success" });
+        case "archive":
+            Database.editPostStatus({ slug, status: 2 });
+            return res.status(200).json({ message: "success" });
+    }
+});
+
 module.exports = router;
