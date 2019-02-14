@@ -23,7 +23,7 @@ module.exports = {
 
         let date = Math.round((new Date()).getTime());
         let title = opts["title"].trim();
-        let slug = slugify(title).trim();
+        let slug = `${slugify(title.toLowerCase())}-${this.randomId(5).toLowerCase()}`;
         let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, `class="fr-fic fr-dib materialboxed"`);
         let post = {
             slug,
@@ -94,9 +94,15 @@ module.exports = {
 
             return true;
         } catch (error) {
-            console.log(error);
+            console.error(`[!] validatePasswordCookies: ${error}`);
             return false;
         }
-
+    },
+    randomId: function (length = 5) {
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < length; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
     }
 }
