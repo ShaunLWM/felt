@@ -41,6 +41,10 @@ class Database {
         return this.db.get("posts").find({ slug }).assign({ status }).write();
     }
 
+    editPost({ slug, body, title }) {
+        return this.db.get("posts").find({ slug }).assign({ body, title }).write();
+    }
+
     processAnalytics(slug) {
         let analytics = this.db.get("analytics").find({ slug }).value();
         if (typeof analytics === "undefined") {

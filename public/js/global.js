@@ -7,11 +7,28 @@ $(document).ready(function () {
         console.log(slug);
         switch ($(this).attr("id")) {
             case "panel-post-edit":
+                if ($("#editor").froalaEditor("html.get").length > 0) {
+                    return alert("Editor is not empty. Please save your current post as draft or submit before editing any post.");
+                }
+
+                $.post("/admin/action", { action: "edit", slug }, (post) => {
+                    $("#post_tags").val(post["tags"].join(","));
+                    $("#post_title").val(post["title"]);
+                    $("#editor").froalaEditor("html.set", post["body"]);
+                    $("#post-editor-form").attr("data-action", "edit").attr("data-slug", post["slug"]);
+                }).fail(function (e) {
+                    if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
+                        return alert(e["responseJSON"]["message"]);
+                    }
+
+                    return alert("Error editing post");
+                });
+
                 break;
             case "panel-post-delete":
                 break;
             case "panel-post-archive":
-                $.post("/action", { action: "archive", slug }, () => {
+                $.post("/admin/action", { action: "archive", slug }, () => {
                     return $(this).parent().parent().remove();
                 }).fail(function (e) {
                     if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
@@ -207,7 +224,7 @@ $(document).ready(function () {
         e.preventDefault();
         let tags = $("#post_tags").val().trim();
         let title = $("#post_title").val().trim();
-        let body = $("#editor").val();
+        let body = $("#editor").froalaEditor("html.get");
         if (title.length < 1) {
             return error.text("Title cannot be empty").css("display", "block");
         }
@@ -219,9 +236,14 @@ $(document).ready(function () {
         error.text("").css("display", "hidden");
         $("input").attr("disabled", true);
         $("#editor").froalaEditor("edit.off");
-        $.post("/admin/new", {
-            tags, title, body
-        }, function (data) {
+        let route = "/admin/post/new";
+        let opts = { tags, title, body };
+        if ($("#post-editor-form").data("action") === "edit") {
+            route = "/admin/post/edit";
+            opts["slug"] = $("#post-editor-form").data("slug");
+        }
+
+        $.post(route, opts, function (data) {
             M.toast({ html: "Successfully posted. Refreshing in 5s..", duration: 10000 });
             setTimeout(() => {
                 location.reload();

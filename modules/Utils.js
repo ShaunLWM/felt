@@ -36,6 +36,9 @@ module.exports = {
         Database.addPost(post);
         return post;
     },
+    processEditPost: function (body) {
+
+    },
     processPostView: function (p) {
         return {
             ...p,

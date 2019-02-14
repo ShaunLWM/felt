@@ -64,14 +64,19 @@ router.post("/update/avatar", upload.single("file-avatar"), (req, res) => {
     return res.status(200).json({ link: `${config.host}:${config.port}/img/${req.file.filename}` });
 });
 
-router.post("/new", (req, res) => {
-    let post = Utils.processNewPost(req.body);
-    return res.status(200).send(post);
+router.post("/post/new", (req, res) => {
+    Utils.processNewPost(req.body);
+    return res.status(200).json({ message: "success" });
 });
 
 router.post("/update/aboutme", (req, res) => {
     let aboutMe = req.body["aboutMe"].trim();
     Database.editConfig("aboutMe", aboutMe);
+    return res.status(200).json({ success: true });
+});
+
+router.post("/post/edit", (req, res) => {
+    Database.editPost(req.body);
     return res.status(200).json({ success: true });
 });
 
