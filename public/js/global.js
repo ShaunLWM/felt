@@ -1,6 +1,20 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#panel-post-edit, #panel-post-delete, #panel-post-archive").on("click", function (e) {
+        e.preventDefault();
+        let slug = $(this).parent().data("slug");
+        console.log(slug);
+        switch ($(this).attr("id")) {
+            case "panel-post-edit":
+                break;
+            case "panel-post-delete":
+                break;
+            case "panel-post-archive":
+                break;
+        }
+    });
+
     $("#setup-input-protect-enabled").on("change", function (e) {
         if (this.checked) {
             $("#setup-input-protect-password").attr("disabled", false);

@@ -13,7 +13,8 @@ class Database {
 
     addPost({ slug, title, date, body, tags }) {
         this.db.get("posts").push({
-            slug, title, date, body, tags
+            slug, title, date, body, tags,
+            status: 1 // 1 = posted, 2 = archived, 3 = drafts
         }).write();
 
         this.processTags(tags);
