@@ -80,10 +80,9 @@ app.use("/m", require("./routes/month"));
 
 app.get("/", (req, res) => {
     let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));
-    let tags = req.locals.tags;
     return res.render("home", {
         posts,
-        tags,
+        tags: req.app.locals.tags,
         title: res.locals.defaultTitle,
         defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
@@ -100,10 +99,9 @@ app.get("/page/:pageNumber", (req, res) => {
 
     let page = parseInt(pageNumber);
     let posts = Utils.getPaginatedItems(Database.getPosts(), page).map(p => Utils.processPostView(p));
-    let tags = res.locals.tags;
     return res.render("home", {
         posts,
-        tags,
+        tags: req.app.locals.tags,
         title: res.locals.defaultTitle,
         defaultTitle: res.locals.defaultTitle,
         avatar: Database.getConfig("avatar"),
