@@ -80,7 +80,7 @@ app.use("/m", require("./routes/month"));
 
 app.get("/", (req, res) => {
     let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));
-    let tags = res.locals.tags;
+    let tags = req.locals.tags;
     return res.render("home", {
         posts,
         tags,

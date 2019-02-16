@@ -22,7 +22,7 @@ class Database {
     }
 
     getAllTags() {
-        return this.db.get("tags").orderBy("u", ["desc"]).value();
+        return this.db.get("tags").orderBy("updated", ["desc"]).value();
     }
 
     getPosts() {
@@ -64,17 +64,17 @@ class Database {
         }
 
         let old = this.db.get("tags").value();
-        tags.forEach(t => {
-            let i = this.db._.find(old, function (o) { return o.v === t; });
+        tags.forEach(tag => {
+            let i = this.db._.find(old, function (o) { return o["value"] === tag; });
             if (typeof i === "undefined") {
                 return this.db.get("tags").push({
-                    v: t.trim(),                    // value
-                    c: 1,                           // count
-                    u: ((new Date()).getTime())     // last updated
+                    value: tag.trim(),                    // value
+                    count: 1,                           // count
+                    updated: ((new Date()).getTime())     // last updated
                 }).write();
             }
 
-            return this.db.get("tags").find({ v: t }).assign({ c: i.c + 1, u: ((new Date()).getTime()) }).write();
+            return this.db.get("tags").find({ value: tag }).assign({ count: i["count"] + 1, updated: ((new Date()).getTime()) }).write();
         });
     }
 
