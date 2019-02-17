@@ -12,7 +12,7 @@ class Database {
         this.db.defaults({ config: {}, posts: [], tags: [], analytics: [] }).write();
     }
 
-    addPost({ slug, title, date, body, tags, status = 1 }) {
+    addPost({ slug, title, date, body, tags, status = 1, ttr }) {
         let short = randtoken.generate(5);
         try {
             let post = this.db.get("posts").find({ short }).value();
@@ -23,10 +23,10 @@ class Database {
 
             console.debug(`[@] short generated: ${short}`);
             this.db.get("posts").push({
-                slug, title, date, body, tags, short,
+                slug, title, date, body, tags, short, ttr,
                 status // 1 = posted, 2 = archived, 3 = drafts, 4 = scheduled
             }).write();
-
+            
             this.processTags(tags);
             this.processAnalytics(slug);
         } catch (error) {

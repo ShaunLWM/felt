@@ -30,7 +30,8 @@ module.exports = {
             title,
             date,
             body,
-            tags
+            tags,
+            ttr: this.calculateReadingTime(body.replace(/<(?:.|\n)*?>/gm, ''))
         };
 
         Database.addPost(post);
@@ -42,10 +43,11 @@ module.exports = {
     processPostView: function (p) {
         return {
             ...p,
-            unix: timeago().format(p.date),
-            month: moment(p.date).format("MMMM YYYY"), // just for /m route
-            date: moment(p.date).format("MMMM Do YYYY, h:mm a"),
-            tags: p.tags.length < 1 ? "none" : (p.tags.reduce((accu, curr, i, arr) => {
+            ttr: (p["ttr"] < 0) ? "less than a min read" : `${p["ttr"]} min read`,
+            unix: timeago().format(p["date"]),
+            month: moment(p["date"]).format("MMMM YYYY"), // just for /m route
+            date: moment(p["date"]).format("MMMM Do YYYY, h:mm a"),
+            tags: p["tags"].length < 1 ? "none" : (p["tags"].reduce((accu, curr, i, arr) => {
                 accu += `<a href="/t/${curr}">${escape(curr)}</a>`;
                 if (i < (arr.length - 1)) {
                     accu += ", "
@@ -107,5 +109,11 @@ module.exports = {
         for (var i = 0; i < length; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
+    },
+    calculateReadingTime: function (body) {
+        let wordsPerSecond = 4.5; // 270 / 60
+        let totalWords = body.trim().split(/\s+/g).length;
+        let totalReadingTimeSeconds = totalWords / wordsPerSecond;
+        return Math.floor(totalReadingTimeSeconds / 60);
     }
 }
