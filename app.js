@@ -33,7 +33,7 @@ app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.use(express.static("public"));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 app.use(cors());
 app.use(helmet());
