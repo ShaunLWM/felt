@@ -3,6 +3,7 @@ const FileSync = require("lowdb/adapters/FileSync")
 const adapter = new FileSync("db.json");
 const lodashId = require("lodash-id");
 const moment = require("moment");
+const randtoken = require("rand-token");
 
 class Database {
     constructor() {
@@ -12,13 +13,25 @@ class Database {
     }
 
     addPost({ slug, title, date, body, tags, status = 1 }) {
-        this.db.get("posts").push({
-            slug, title, date, body, tags,
-            status // 1 = posted, 2 = archived, 3 = drafts, 4 = scheduled
-        }).write();
+        let short = randtoken.generate(5);
+        try {
+            let post = this.db.get("posts").find({ short }).value();
+            while (typeof post !== "undefined") {
+                short = randtoken.generate(5);
+                post = this.db.get("posts").find({ short }).value();
+            }
 
-        this.processTags(tags);
-        this.processAnalytics(slug);
+            console.debug(`[@] short generated: ${short}`);
+            this.db.get("posts").push({
+                slug, title, date, body, tags, short,
+                status // 1 = posted, 2 = archived, 3 = drafts, 4 = scheduled
+            }).write();
+
+            this.processTags(tags);
+            this.processAnalytics(slug);
+        } catch (error) {
+            console.error(`[!] addPost error: ${error}`);
+        }
     }
 
     getAllTags() {
