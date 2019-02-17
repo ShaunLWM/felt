@@ -1,11 +1,9 @@
 const express = require("express");
-const Database = require("../modules/Database");
-const Utils = require("../modules/Utils");
-
-const config = require("../config");
 const Cryptr = require("cryptr");
-const cryptr = new Cryptr(config.passwordProtected.salt);
 
+const Utils = require("../modules/Utils");
+const config = require("../config");
+const cryptr = new Cryptr(config.passwordProtected.salt);
 let router = express.Router();
 
 router.get("/", (req, res) => {
