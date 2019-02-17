@@ -123,7 +123,7 @@ $(document).ready(function () {
         let extn = imgPath.substring(imgPath.lastIndexOf(".") + 1).toLowerCase();
         let image_holder = $("#image-holder");
         image_holder.empty();
-        let allowedExtensions = ["gif", "png", "jpg", "jpeg"];
+        let allowedExtensions = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
         if (!allowedExtensions.includes(extn)) {
             return alert(`allowed filetypes: ${JSON.stringify(allowedExtensions)}`);
         }
@@ -180,7 +180,7 @@ $(document).ready(function () {
         imageMaxSize: 5 * 1024 * 1024,
 
         // Allow to upload PNG and JPG.
-        imageAllowedTypes: ["jpeg", "jpg", "png"]
+        imageAllowedTypes: ["gif", "jpeg", "jpg", "png", "svg", "blob"]
     })
         .on("froalaEditor.image.beforeUpload", function (e, editor, images) {
             // Return false if you want to stop the image upload.
