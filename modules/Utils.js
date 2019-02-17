@@ -43,7 +43,7 @@ module.exports = {
     processPostView: function (p) {
         return {
             ...p,
-            ttr: (p["ttr"] < 0) ? "less than a min read" : `${p["ttr"]} min read`,
+            ttr: (p["ttr"] < 1) ? "less than a min read" : `${p["ttr"]} min read`,
             unix: timeago().format(p["date"]),
             month: moment(p["date"]).format("MMMM YYYY"), // just for /m route
             date: moment(p["date"]).format("MMMM Do YYYY, h:mm a"),
