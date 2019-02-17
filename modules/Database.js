@@ -42,7 +42,11 @@ class Database {
         return this.db.get("posts").orderBy("date", ["desc"]).value();
     }
 
-    getPost(slug) {
+    getPost({ slug, short = null }) {
+        if (short !== null) {
+            return this.db.get("posts").find({ short }).value();
+        }
+
         return this.db.get("posts").find({ slug }).value();
     }
 

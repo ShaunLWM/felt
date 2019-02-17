@@ -91,6 +91,20 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/:short([A-Za-z0-9]{5})$", (req, res, next) => {
+    let short = req.params["short"];
+    if (typeof short === "undefined" || short.trim().length < 1) {
+        return next();
+    }
+
+    let post = Database.getPost({ short });
+    if (typeof post === "undefined") {
+        return next();
+    }
+
+    return res.redirect(`/p/${post["slug"]}`);
+});
+
 app.get("/page/:pageNumber", (req, res) => {
     let pageNumber = req.params["pageNumber"];
     if (!/^\d+$/g.test(pageNumber)) {

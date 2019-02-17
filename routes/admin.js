@@ -89,7 +89,7 @@ router.post("/action", (req, res) => {
     let slug = req.body["slug"];
     switch (action) {
         case "edit":
-            let post = Database.getPost(slug);
+            let post = Database.getPost({ slug });
             return res.status(200).json(post);
         case "delete":
             Database.deletePost(slug);

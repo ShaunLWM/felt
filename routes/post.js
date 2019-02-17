@@ -5,7 +5,7 @@ let router = express.Router();
 
 router.get("/:slug", (req, res, next) => {
     let slug = req.params.slug;
-    if (typeof slug === "undefined" || slug.length < 1) {
+    if (typeof slug === "undefined" || slug.trim().length < 1) {
         return next();
     }
 
