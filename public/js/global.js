@@ -98,6 +98,11 @@ $(document).ready(function () {
         }
 
         $.post("/protected", { password }, function () {
+            let url = new URL(window.location.href);
+            if (url.searchParams.get("redir") !== null) {
+                return window.location.replace(url.searchParams.get("redir"));
+            }
+
             return window.location.replace("/");
         }).fail(function (e) {
             if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
@@ -106,7 +111,7 @@ $(document).ready(function () {
 
             return alert("Error submitting password");
         });
-    })
+    });
 
     $("#button-update-aboutme").on("click", function (e) {
         e.preventDefault();

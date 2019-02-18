@@ -58,13 +58,13 @@ app.use((req, res, next) => {
         return res.redirect("/setup");
     }
 
-    if (req.originalUrl === "/protected" || req.originalUrl.includes("/admin") || req.originalUrl === "/setup") { // ignore /protected route only
+    if (req.originalUrl.startsWith("/protected") || req.originalUrl.includes("/admin") || req.originalUrl === "/setup") { // ignore /protected route only
         return next();
     }
 
     if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled) {
         if (!Utils.validatePasswordCookies(req.cookies["protected"])) {
-            return res.redirect("/protected");
+            return res.redirect(`/protected?redir=${req.originalUrl}`);
         }
     }
 
