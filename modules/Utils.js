@@ -25,12 +25,14 @@ module.exports = {
         let title = opts["title"].trim();
         let slug = `${slugify(title.toLowerCase())}-${this.randomId(5).toLowerCase()}`;
         let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, `class="fr-fic fr-dib materialboxed"`);
+        let status = parseInt(opts["status"]);
         let post = {
             slug,
             title,
             date,
             body,
             tags,
+            status,
             ttr: this.calculateReadingTime(body.replace(/<(?:.|\n)*?>/gm, ''))
         };
 

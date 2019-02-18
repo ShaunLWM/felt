@@ -34,11 +34,13 @@ let router = express.Router();
 
 router.get("/", (req, res, next) => {
     if (typeof req.query.u !== "undefined" && req.query.u == config.admin.username && typeof req.query.p !== "undefined" && req.query.p == config.admin.password) {
+        let posts = Database.getPosts();
+        // since we have drafts, schedules etc, we shall just filter post so we dont have to call getpost multiple times
         return res.render("admin", {
             title: res.locals.defaultTitle,
-            posts: Database.getPosts(),
-            drafts: Database.getDrafts(),
-            scheduled: Database.getScheduled(),
+            posts: posts.filter(p => p["status"] === 1),
+            drafts: posts.filter(p => p["status"] === 3),
+            scheduled: posts.filter(p => p["status"] === 4),
             avatar: Database.getConfig("avatar"),
             aboutMe: Database.getConfig("aboutMe")
         });

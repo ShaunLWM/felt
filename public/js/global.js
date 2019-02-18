@@ -224,7 +224,7 @@ $(document).ready(function () {
             // Response contains the original server response to the request if available.
         });
 
-    $("#submit").on("click", function (e) {
+    $("#button-post-submit, #button-post-save-draft").on("click", function (e) {
         let error = $("#error_text");
         e.preventDefault();
         let tags = $("#post_tags").val().trim();
@@ -242,7 +242,8 @@ $(document).ready(function () {
         $("input").attr("disabled", true);
         $("#editor").froalaEditor("edit.off");
         let route = "/admin/post/new";
-        let opts = { tags, title, body };
+        let status = $(this).attr("id") === "button-post-submit" ? 1 : 3;
+        let opts = { tags, title, body, status };
         if ($("#post-editor-form").data("action") === "edit") {
             route = "/admin/post/edit";
             opts["slug"] = $("#post-editor-form").data("slug");

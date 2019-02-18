@@ -6,8 +6,11 @@
     <p>
         <input placeholder="Tags: life, work, art etc" id="post_tags" type="text" class="validate">
     </p>
-    <button class="btn waves-effect waves-light white black-text" type="submit" name="action" id="submit">Submit
+    <button class="btn waves-effect waves-light" type="submit" name="action" id="button-post-submit">Submit
         <i class="material-icons right">send</i>
+    </button>
+    <button class="btn waves-effect waves-light" type="submit" name="action" id="button-post-save-draft">Save Draft
+        <i class="material-icons right">save</i>
     </button>
 
     <span id="error_text" class="error" style="display:hidden;"></span>
@@ -48,6 +51,46 @@
                     </td>
                     <td>{{{formatTimeAgo date}}}</td>
                     <td data-slug="{{slug}}">
+                        <a id="panel-post-edit" data-position="bottom" data-tooltip="Edit"
+                            class="tooltipped btn-floating waves-effect waves-light red"><i
+                                class="material-icons">create</i></a>
+                        <a id="panel-post-delete" data-position="bottom" data-tooltip="Delete"
+                            class="tooltipped btn-floating waves-effect waves-light red"><i
+                                class="material-icons">delete</i></a>
+                        <a id="panel-post-archive" data-position="bottom" data-tooltip="Archive"
+                            class="tooltipped btn-floating waves-effect waves-light red"><i
+                                class="material-icons">archive</i></a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div id="drafts" class="col s12">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Post</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each drafts}}
+                <tr>
+                    <td>
+                        <label>
+                            <input data-slug="{{slug}}" type="checkbox" name="checkbox_post_action" />
+                            <span></span>
+                        </label>
+                    </td>
+                    <td>
+                        <p class="truncate">{{{removeTruncate body}}}</p>
+                    </td>
+                    <td>{{{formatTimeAgo date}}}</td>
+                    <td data-slug="{{slug}}">
                         <a id="panel-post-edit" class="btn-floating waves-effect waves-light red"><i
                                 class="material-icons">create</i></a>
                         <a id="panel-post-delete" class="btn-floating waves-effect waves-light red"><i
@@ -60,7 +103,6 @@
             </tbody>
         </table>
     </div>
-    <div id="drafts" class="col s12">Test 2</div>
     <div id="scheduled" class="col s12">Test 3</div>
     <div id="settings" class="col s12">
         <table>

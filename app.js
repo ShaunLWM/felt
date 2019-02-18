@@ -79,7 +79,7 @@ app.use("/t", require("./routes/tags"));
 app.use("/m", require("./routes/month"));
 
 app.get("/", (req, res) => {
-    let posts = Utils.getPaginatedItems(Database.getPosts(), 1).map(p => Utils.processPostView(p));
+    let posts = Utils.getPaginatedItems(Database.getPosts(), 1).filter(p => p["status"] === 1).map(p => Utils.processPostView(p));
     return res.render("home", {
         posts,
         tags: req.app.locals.tags,
@@ -112,7 +112,7 @@ app.get("/page/:pageNumber", (req, res) => {
     }
 
     let page = parseInt(pageNumber);
-    let posts = Utils.getPaginatedItems(Database.getPosts(), page).map(p => Utils.processPostView(p));
+    let posts = Utils.getPaginatedItems(Database.getPosts(), page).filter(p => p["status"] === 1).map(p => Utils.processPostView(p));
     return res.render("home", {
         posts,
         tags: req.app.locals.tags,
