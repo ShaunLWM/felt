@@ -1,7 +1,7 @@
 $(document).ready(function () {
     M.AutoInit();
 
-    $("#button-export-database").on("click", function(e) {
+    $("#button-export-database").on("click", function (e) {
         e.preventDefault();
         console.log(window.location.href);
         window.location.replace(`${window.location.href}&action=export`)
@@ -50,11 +50,11 @@ $(document).ready(function () {
     $("#setup-input-protect-enabled").on("change", function (e) {
         if (this.checked) {
             $("#setup-input-protect-password").attr("disabled", false);
-            $("#setup-input-protect-salt").attr("disabled", false);
+            $("#setup-input-protect-hash").attr("disabled", false);
             $("#setup-input-protect-days").attr("disabled", false);
         } else {
             $("#setup-input-protect-password").attr("disabled", true);
-            $("#setup-input-protect-salt").attr("disabled", true);
+            $("#setup-input-protect-hash").attr("disabled", true);
             $("#setup-input-protect-days").attr("disabled", true);
         }
     });
@@ -67,7 +67,7 @@ $(document).ready(function () {
         let adminPassword = $("#setup-input-admin-password").val();
         let protectEnabled = $("#setup-input-protect-enabled").prop("checked");
         let protectPassword = $("#setup-input-protect-password").val();
-        let protectSalt = $("#setup-input-protect-salt").val();
+        let protectHint = $("#setup-input-protect-hint").val();
         let protectDays = $("#setup-input-protect-days").val();
         if (title.length < 1) {
             return alert("Default title cannot be empty");
@@ -82,10 +82,10 @@ $(document).ready(function () {
         }
 
         if (protectEnabled && protectPassword.length < 1) {
-            return alert("Password protect is enabled. Please enter a password.")
+            return alert("Password protect is enabled. Please enter a password.");
         }
 
-        $.post("/setup", { host, title, adminUsername, adminPassword, protectEnabled, protectPassword, protectSalt, protectDays }, function () {
+        $.post("/setup", { host, title, adminUsername, adminPassword, protectEnabled, protectPassword, protectHint, protectDays }, function () {
             return window.location.replace("/");
         }).fail(function (e) {
             if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {

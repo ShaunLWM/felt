@@ -11,6 +11,7 @@ module.exports = {
     "enabled": true,
     "password": "123",
     "salt": "SXVRuhSy5OxpNPfCsqNYQKECEIB6O80ZH1IbT1ixg0WZCkCA2I",
+    "hint": "some hint",
     "maxDays": 3
   }
 };

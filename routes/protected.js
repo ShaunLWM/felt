@@ -10,7 +10,8 @@ router.get("/", (req, res) => {
     if (typeof config.passwordProtected !== "undefined" && config.passwordProtected.enabled && !Utils.validatePasswordCookies(req.cookies["protected"])) {
         return res.render("protected", {
             title: "Password Protected",
-            defaultTitle: res.locals.defaultTitle
+            defaultTitle: res.locals.defaultTitle,
+            hint: config.passwordProtected.hint
         });
     }
 

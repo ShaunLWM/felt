@@ -13,14 +13,14 @@ router.get("/", (req, res) => {
         host: `${req.protocol}://${req.hostname}`,
     });
 
-    defaultConfig["passwordProtected"]["salt"] = uid(50);
+    // defaultConfig["passwordProtected"]["salt"] = uid(50);
     return res.render("setup", {
         config: defaultConfig
     });
 });
 
 router.post("/", (req, res) => {
-    let { host, title, adminUsername, adminPassword, protectEnabled, protectPassword, protectSalt = uid(50), protectDays = 7 } = req.body;
+    let { host, title, adminUsername, adminPassword, protectEnabled, protectPassword, protectHint, protectDays = 7 } = req.body;
     if (host.length < 1) {
         host = `${req.protocol}://${req.hostname}`;
     }
@@ -41,10 +41,6 @@ router.post("/", (req, res) => {
     if (protectEnabled) {
         if (protectPassword.length < 1) {
             return res.status(400).json({ message: "Password protect is enabled. Please enter a password." });
-        }
-
-        if (protectSalt.length < 1) {
-            protectSalt = uid(50);
         }
 
         if (protectDays.length < 1 || isNaN(protectDays)) {
@@ -69,7 +65,8 @@ router.post("/", (req, res) => {
         passwordProtected: {
             enabled: Boolean(protectEnabled),
             password: protectPassword,
-            salt: protectSalt,
+            salt: uid(50),
+            hint: protectHint,
             maxDays: protectDays
         }
     });
