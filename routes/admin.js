@@ -4,7 +4,7 @@ const randtoken = require("rand-token");
 const multer = require("multer");
 const config = require("../config");
 const Utils = require("../modules/Utils");
-const fs = require("fs-extra");
+const path = require("path");
 
 let acceptedExtension = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
 let accepted = ["image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/svg+xml"];
@@ -33,7 +33,11 @@ const upload = multer({ storage, fileFilter });
 let router = express.Router();
 
 router.get("/", (req, res, next) => {
-    if (typeof req.query.u !== "undefined" && req.query.u == config.admin.username && typeof req.query.p !== "undefined" && req.query.p == config.admin.password) {
+    if (typeof req.query["u"] !== "undefined" && req.query["u"] == config.admin.username && typeof req.query["p"] !== "undefined" && req.query["p"] == config.admin.password) {
+        if (typeof req.query["action"] !== "undefined" && req.query["action"] === "export") {
+            return res.download(path.join(__dirname, "..", "db.json"));
+        }
+
         let posts = Database.getPosts();
         // since we have drafts, schedules etc, we shall just filter post so we dont have to call getpost multiple times
         return res.render("admin", {

@@ -1,6 +1,12 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#button-export-database").on("click", function(e) {
+        e.preventDefault();
+        console.log(window.location.href);
+        window.location.replace(`${window.location.href}&action=export`)
+    });
+
     $("#panel-post-edit, #panel-post-delete, #panel-post-archive").on("click", function (e) {
         e.preventDefault();
         let slug = $(this).parent().data("slug");
