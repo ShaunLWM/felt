@@ -82,7 +82,11 @@ router.post("/update/aboutme", (req, res) => {
 });
 
 router.post("/post/edit", (req, res) => {
-    Database.editPost(req.body);
+    Utils.processEditPost(req.body);
+    if (req.body["status"] === "1") { // from draft to posted
+        Database.editPostStatus({ short: req.body["short"], status: 1 });
+    }
+
     return res.status(200).json({ success: true });
 });
 

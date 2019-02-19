@@ -39,8 +39,10 @@ module.exports = {
         Database.addPost(post);
         return post;
     },
-    processEditPost: function (body) {
-
+    processEditPost: function ({ short, body, title }) {
+        let slug = `${slugify(title.toLowerCase())}-${this.randomId(5).toLowerCase()}`;
+        let date = Math.round((new Date()).getTime());
+        return Database.editPost({ short, body, title, slug, date });
     },
     processPostView: function (p) {
         return {

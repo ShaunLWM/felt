@@ -21,7 +21,7 @@ $(document).ready(function () {
                     $("#post_tags").val(post["tags"].join(","));
                     $("#post_title").val(post["title"]);
                     $("#editor").froalaEditor("html.set", post["body"]);
-                    $("#post-editor-form").attr("data-action", "edit").attr("data-slug", post["slug"]);
+                    $("#post-editor-form").attr("data-action", "edit").attr("data-short", post["short"]);
                 }).fail(function (e) {
                     if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
                         return alert(e["responseJSON"]["message"]);
@@ -252,7 +252,7 @@ $(document).ready(function () {
         let opts = { tags, title, body, status };
         if ($("#post-editor-form").data("action") === "edit") {
             route = "/admin/post/edit";
-            opts["slug"] = $("#post-editor-form").data("slug");
+            opts["short"] = $("#post-editor-form").data("short");
         }
 
         $.post(route, opts, function (data) {

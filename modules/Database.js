@@ -26,7 +26,7 @@ class Database {
                 slug, title, date, body, tags, short, ttr,
                 status // 1 = posted, 2 = archived, 3 = drafts, 4 = scheduled
             }).write();
-            
+
             this.processTags(tags);
             this.processAnalytics(slug);
         } catch (error) {
@@ -54,12 +54,16 @@ class Database {
         return this.db.get("posts").remove({ slug }).write();
     }
 
-    editPostStatus({ slug, status }) {
+    editPostStatus({ slug, short = null, status }) {
+        if (short !== null) {
+            return this.db.get("posts").find({ short }).assign({ status }).write();
+        }
+
         return this.db.get("posts").find({ slug }).assign({ status }).write();
     }
 
-    editPost({ slug, body, title }) {
-        return this.db.get("posts").find({ slug }).assign({ body, title }).write();
+    editPost({ short, body, title, slug, date }) {
+        return this.db.get("posts").find({ short }).assign({ body, title, slug, date }).write();
     }
 
     processAnalytics(slug) {
@@ -95,7 +99,7 @@ class Database {
         });
     }
 
-    findPost({ tag = null, date = null, slug = null }) {
+    findPost({ tag = null, slug = null }) {
         let posts = this.db.get("posts").value();
         if (tag !== null) {
             return posts.filter(p => {
