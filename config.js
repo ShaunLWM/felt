@@ -1,5 +1,5 @@
 module.exports = {
-  "setup": true,
+  "setup": false,
   "title": "Felt",
   "host": "http://localhost",
   "port": 8081,

@@ -50,11 +50,11 @@ $(document).ready(function () {
     $("#setup-input-protect-enabled").on("change", function (e) {
         if (this.checked) {
             $("#setup-input-protect-password").attr("disabled", false);
-            $("#setup-input-protect-hash").attr("disabled", false);
+            $("#setup-input-protect-hint").attr("disabled", false);
             $("#setup-input-protect-days").attr("disabled", false);
         } else {
             $("#setup-input-protect-password").attr("disabled", true);
-            $("#setup-input-protect-hash").attr("disabled", true);
+            $("#setup-input-protect-hint").attr("disabled", true);
             $("#setup-input-protect-days").attr("disabled", true);
         }
     });
