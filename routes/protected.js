@@ -24,11 +24,13 @@ router.get("/delete", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+    let bot = req.app.bot;
     if (typeof req.body["password"] === "undefined" || req.body["password"].length < 1) {
         return res.status(400).json({ message: "Missing password value" });
     }
 
     let password = req.body["password"];
+    bot.sendMessage({ message: `Someone accessed using ${password}` });
     if (password !== config.passwordProtected.password) {
         return res.status(400).json({ message: "Wrong password" });
     }

@@ -10,8 +10,14 @@ module.exports = {
   "passwordProtected": {
     "enabled": true,
     "password": "123",
-    "salt": "SXVRuhSy5OxpNPfCsqNYQKECEIB6O80ZH1IbT1ixg0WZCkCA2I",
-    "hint": "some hint",
-    "maxDays": 3
+    "salt": "Mt0yK08kHYxjdfgHNOxmZzlPP42ljkXJeZbJOnOcelJ1KsUN4W",
+    "hint": "",
+    "maxDays": "3"
+  },
+  "plugins": {
+    "telegram": {
+      "token": "",
+      "adminId": ""
+    }
   }
 };

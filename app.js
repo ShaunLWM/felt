@@ -11,9 +11,14 @@ const fs = require("fs-extra");
 const Utils = require("./modules/Utils");
 const config = require("./config");
 
-let Database = require("./modules/Database");
+const Database = require("./modules/Database");
 let app = express();
 fs.ensureDirSync("./public/img/");
+
+/* Temporary */
+const TelegramBot = require("./modules/plugins/TelegramBot");
+let bot = new TelegramBot();
+app.bot = bot;
 
 let hbs = exphbs.create({
     defaultLayout: "main",
