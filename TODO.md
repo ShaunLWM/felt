@@ -4,3 +4,4 @@
 4. short url - done
 5. related sidebar
 6. Export database with medias
+7. An actual plugin system

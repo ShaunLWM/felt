@@ -1,5 +1,5 @@
 module.exports = {
-  "setup": false,
+  "setup": true,
   "title": "Felt",
   "host": "http://localhost",
   "port": 8081,
@@ -8,9 +8,9 @@ module.exports = {
     "password": "sm3llycat"
   },
   "passwordProtected": {
-    "enabled": true,
+    "enabled": false,
     "password": "123",
-    "salt": "Mt0yK08kHYxjdfgHNOxmZzlPP42ljkXJeZbJOnOcelJ1KsUN4W",
+    "salt": "QiLWCepvVc9UX6H7n9YQ1nkOBr2zK4glIdJFJJTkCK3A2IYfII",
     "hint": "",
     "maxDays": "3"
   },
