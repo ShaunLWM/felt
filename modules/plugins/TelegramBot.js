@@ -22,6 +22,21 @@ class TelegramBot {
         this.bot.sendMessage(userId, message);
     }
 
+    detectActions(type, info) {
+        switch (type) {
+            case "wrongPassword":
+                this.sendMessage({ message: `Someone entered the wrong password: ${info["body"]["password"]}` });
+                break;
+            case "correctPassword":
+                this.sendMessage({ message: `Someone entered the correct password: ${info["body"]["password"]}` });
+                break;
+        }
+    }
+
 }
 
-module.exports = TelegramBot;
+module.exports = {
+    plugin: new TelegramBot(),
+    name: "telegram",
+    required: ["token", "adminId"]
+};

@@ -30,11 +30,12 @@ router.post("/", (req, res) => {
     }
 
     let password = req.body["password"];
-    bot.sendMessage({ message: `Someone accessed using ${password}` });
     if (password !== config.passwordProtected.password) {
+        req.app.pluginManager.detectActions("wrongPassword", req);
         return res.status(400).json({ message: "Wrong password" });
     }
 
+    req.app.pluginManager.detectActions("correctPassword", req);
     let currentTime = Math.round((new Date()).getTime() / 1000);
     let toEncrypt = `${currentTime}|${config.passwordProtected.password}`;
     res.cookie('protected', cryptr.encrypt(toEncrypt), { maxAge: (1000 * 60 * 60 * 24 * config.passwordProtected.maxDays), httpOnly: true });

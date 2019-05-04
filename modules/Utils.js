@@ -119,5 +119,14 @@ module.exports = {
         let totalWords = body.trim().split(/\s+/g).length;
         let totalReadingTimeSeconds = totalWords / wordsPerSecond;
         return Math.floor(totalReadingTimeSeconds / 60);
+    },
+    parseRequest: function (req) {
+        const { route, body = null, headers } = req;
+        return {
+            path: route["path"],
+            method: route["methods"],
+            body,
+            headers
+        }
     }
 }

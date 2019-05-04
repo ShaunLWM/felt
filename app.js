@@ -8,17 +8,13 @@ const escape = require("escape-html");
 const timeago = require("timeago.js");
 const fs = require("fs-extra");
 
+const PluginManager = require("./modules/PluginManager");
 const Utils = require("./modules/Utils");
 const config = require("./config");
 
 const Database = require("./modules/Database");
 let app = express();
 fs.ensureDirSync("./public/img/");
-
-/* Temporary */
-const TelegramBot = require("./modules/plugins/TelegramBot");
-let bot = new TelegramBot();
-app.bot = bot;
 
 let hbs = exphbs.create({
     defaultLayout: "main",
@@ -133,4 +129,8 @@ app.use((req, res) => {
     return res.status(404).render("404");
 });
 
-app.listen(config.port, () => console.log(`[@] felt listening on port ${config.port}!`))
+app.pluginManager = PluginManager;
+PluginManager.on("ready", () => {
+    console.log(`[@] PluginManager initialised`);
+    app.listen(config.port, () => console.log(`[@] felt listening on port ${config.port}!`))
+});

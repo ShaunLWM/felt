@@ -68,6 +68,17 @@ router.post("/", (req, res) => {
             salt: uid(50),
             hint: protectHint,
             maxDays: protectDays
+        },
+        plugins: {
+            telegram: {
+                enabled: Boolean(false),
+                token: "",
+                adminId: ""
+            }
+        },
+        actions: {
+            wrongPassword: [],
+            correctPassword: []
         }
     });
 

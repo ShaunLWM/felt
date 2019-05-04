@@ -16,8 +16,13 @@ module.exports = {
   },
   "plugins": {
     "telegram": {
+      "enabled": false,
       "token": "",
       "adminId": ""
     }
+  },
+  "actions": {
+    "wrongPassword": [""],
+    "correctPassword": [""]
   }
 };
