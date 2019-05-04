@@ -81,7 +81,7 @@ class Database {
 
     processTags(tags) {
         if (typeof tags === "undefined" || !Array.isArray(tags) || tags.length < 1) {
-            return console.log('[!] no tags to process..');
+            return console.log("[!] no tags to process..");
         }
 
         let old = this.db.get("tags").value();

@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
     req.app.pluginManager.detectActions("correctPassword", req);
     let currentTime = Math.round((new Date()).getTime() / 1000);
     let toEncrypt = `${currentTime}|${config.passwordProtected.password}`;
-    res.cookie('protected', cryptr.encrypt(toEncrypt), { maxAge: (1000 * 60 * 60 * 24 * config.passwordProtected.maxDays), httpOnly: true });
+    res.cookie("protected", cryptr.encrypt(toEncrypt), { maxAge: (1000 * 60 * 60 * 24 * config.passwordProtected.maxDays), httpOnly: true });
     return res.status(200).json({ message: "Success" });
 });
 

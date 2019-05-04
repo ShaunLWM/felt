@@ -1,6 +1,6 @@
 const config = require("../config");
 const fs = require("fs-extra");
-const uid = require('rand-token').uid;
+const uid = require("rand-token").uid;
 const express = require("express");
 let router = express.Router();
 

@@ -33,7 +33,7 @@ module.exports = {
             body,
             tags,
             status,
-            ttr: this.calculateReadingTime(body.replace(/<(?:.|\n)*?>/gm, ''))
+            ttr: this.calculateReadingTime(body.replace(/<(?:.|\n)*?>/gm, ""))
         };
 
         Database.addPost(post);
