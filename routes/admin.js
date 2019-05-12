@@ -5,9 +5,28 @@ const multer = require("multer");
 const config = require("../config");
 const Utils = require("../modules/Utils");
 const path = require("path");
+const AdmZip = require("adm-zip");
+const fg = require("fast-glob");
+const pkg = require("../package.json");
 
 let acceptedExtension = ["gif", "jpeg", "jpg", "png", "svg", "blob"];
 let accepted = ["image/gif", "image/jpeg", "image/pjpeg", "image/x-png", "image/png", "image/svg+xml"];
+
+function handleExport(res) {
+    let zip = new AdmZip();
+    fg([`${__dirname}/../public/img/p_*.{${acceptedExtension.join(",")}}`]).then(entries => {
+        zip.addLocalFile(path.join(__dirname, "..", "db.json"));
+        if (entries.length > 0) {
+            entries.forEach(file => {
+                zip.addLocalFile(file);
+            });
+        }
+
+        let zipName = path.join(__dirname, "..", `export_v${pkg.version}_${Math.floor(Date.now() / 1000)}.zip`);
+        zip.writeZip(zipName);
+        return res.download(zipName);
+    });
+}
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -35,7 +54,7 @@ let router = express.Router();
 router.get("/", (req, res, next) => {
     if (typeof req.query["u"] !== "undefined" && req.query["u"] == config.admin.username && typeof req.query["p"] !== "undefined" && req.query["p"] == config.admin.password) {
         if (typeof req.query["action"] !== "undefined" && req.query["action"] === "export") {
-            return res.download(path.join(__dirname, "..", "db.json"));
+            return handleExport(res);
         }
 
         let posts = Database.getPosts();
