@@ -15,7 +15,7 @@ let storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         let f = file.originalname.split(".").pop();
-        return cb(null, `${randtoken.generate(16)}${Date.now()}.${f.toLowerCase()}`);
+        return cb(null, `p_${randtoken.generate(16)}${Date.now()}.${f.toLowerCase()}`);
     }
 });
 
