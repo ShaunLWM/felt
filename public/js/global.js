@@ -3,8 +3,8 @@ $(document).ready(function () {
 
     $("#button-export-database").on("click", function (e) {
         e.preventDefault();
-        console.log(window.location.href);
-        window.location.replace(`${window.location.href}&action=export`)
+        let form = $("<form></form>").attr("action", `${window.location.href}&action=export`).attr("method", "post");
+        form.appendTo("body").submit().remove();
     });
 
     $("#panel-post-edit, #panel-post-delete, #panel-post-archive").on("click", function (e) {

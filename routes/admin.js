@@ -53,10 +53,6 @@ let router = express.Router();
 
 router.get("/", (req, res, next) => {
     if (typeof req.query["u"] !== "undefined" && req.query["u"] == config.admin.username && typeof req.query["p"] !== "undefined" && req.query["p"] == config.admin.password) {
-        if (typeof req.query["action"] !== "undefined" && req.query["action"] === "export") {
-            return handleExport(res);
-        }
-
         let posts = Database.getPosts();
         // since we have drafts, schedules etc, we shall just filter post so we dont have to call getpost multiple times
         return res.render("admin", {
@@ -67,6 +63,14 @@ router.get("/", (req, res, next) => {
             avatar: Database.getConfig("avatar"),
             aboutMe: Database.getConfig("aboutMe")
         });
+    }
+
+    return next();
+});
+
+router.post("/", (req, res) => {
+    if (typeof req.query["u"] !== "undefined" && req.query["u"] == config.admin.username && typeof req.query["p"] !== "undefined" && req.query["p"] == config.admin.password && typeof req.query["action"] !== "undefined" && req.query["action"] === "export") {
+        return handleExport(res);
     }
 
     return next();
