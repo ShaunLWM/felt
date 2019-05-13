@@ -12,7 +12,7 @@ class PluginManager extends EventEmitter {
             if (error) console.log(error);
             files.forEach(file => {
                 let plugin = require(file);
-                if (typeof plugin["name"] === "undefined") return;
+                if (typeof plugin["name"] === "undefined") return delete require.cache[require.resolve(file)];
 
                 let pluginName = plugin["name"];
                 console.log(`[@] plugin found: ${pluginName}`);
