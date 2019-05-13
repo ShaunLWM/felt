@@ -1,5 +1,5 @@
 module.exports = {
-  "setup": true,
+  "setup": false,
   "title": "Felt",
   "host": "http://localhost",
   "port": 8081,
@@ -11,7 +11,7 @@ module.exports = {
     "enabled": false,
     "password": "123",
     "salt": "QiLWCepvVc9UX6H7n9YQ1nkOBr2zK4glIdJFJJTkCK3A2IYfII",
-    "hint": "",
+    "hint": "It's my birthday!",
     "maxDays": "3"
   },
   "plugins": {

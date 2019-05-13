@@ -10,6 +10,7 @@ A lightweight personal blog for mobile and the web.
 2.  `yarn install` or `npm install`
 3. Run `npm start` or `node app.js`. No configuration needed (read step 4)
 4. Navigate to `http://<ip>:8081` and begin setup.
+5. After setup, you can access admin panel through `http://<your-host>:<port>/admin?u=<admin username>&p=<admin password>`
 
 ## TODO
 - Look in TODO.md
