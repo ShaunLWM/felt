@@ -1,3 +1,5 @@
+process.env["NTBA_FIX_319"] = 1;
+
 const Bot = require("node-telegram-bot-api");
 const config = require("../../config");
 
