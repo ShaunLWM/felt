@@ -1,5 +1,5 @@
 const EventEmitter = require("events");
-const glob = require("glob");
+const fg = require("fast-glob");
 const path = require("path");
 const config = require("../config");
 const Utils = require("./Utils");
@@ -8,8 +8,7 @@ class PluginManager extends EventEmitter {
     constructor() {
         super();
         this.plugins = [];
-        this.pluginFiles = glob(path.join(__dirname, "plugins", "*.js"), (error, files) => {
-            if (error) console.log(error);
+        this.pluginFiles = fg([path.join(__dirname, "plugins", "*.js")]).then(files => {
             files.forEach(file => {
                 let plugin = require(file);
                 if (typeof plugin["name"] === "undefined") return delete require.cache[require.resolve(file)];
@@ -29,6 +28,8 @@ class PluginManager extends EventEmitter {
 
             console.log(`[@] ${this.plugins.length} plugins running`);
             this.emit("ready");
+        }).catch(error => {
+            return console.log(`[!] failed to load PluginManager ${error}`);
         });
     }
 
