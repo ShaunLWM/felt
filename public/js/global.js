@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     $("#button-export-database").on("click", function (e) {
         e.preventDefault();
-        let form = $("<form></form>").attr("action", `${window.location.href}&action=export`).attr("method", "post");
+        let form = $("<form></form>").attr("action", `/tools/export/${window.location.search}`).attr("method", "post");
         form.appendTo("body").submit().remove();
     });
 
