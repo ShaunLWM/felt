@@ -7,6 +7,8 @@ const timeago = require("timeago.js");
 const config = require("../config");
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(config.passwordProtected.salt);
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
     processNewPost: function (opts) {
@@ -128,5 +130,14 @@ module.exports = {
             body,
             headers
         }
+    },
+    getTemporaryDirectory: function () {
+        let filepath = path.join(__dirname, "..", "temp");
+        if (fs.existsSync(filepath)) {
+            fs.removeSync(filepath);
+        }
+
+        fs.ensureDirSync(filepath);
+        return filepath;
     }
 }

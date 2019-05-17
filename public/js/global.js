@@ -1,6 +1,29 @@
 $(document).ready(function () {
     M.AutoInit();
 
+    $("#form-import-zip").on("submit", function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        $.ajax({
+            type: 'POST',
+            url: `/tools/import/${window.location.search}`,
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                alert(data);
+            }
+        });
+    });
+
+    $("#button-import-database").on("change", function (e) {
+        e.preventDefault();
+        $("#form-import-zip").submit();
+    });
+
     $("#button-export-database").on("click", function (e) {
         e.preventDefault();
         let form = $("<form></form>").attr("action", `${window.location.href}&action=export`).attr("method", "post");
@@ -183,7 +206,7 @@ $(document).ready(function () {
         imageMaxSize: 5 * 1024 * 1024,
         imageAllowedTypes: ["gif", "jpeg", "jpg", "png", "svg", "blob"]
     }).on("froalaEditor.image.beforeUpload", function (e, editor, images) {
-        })
+    })
         .on("froalaEditor.image.uploaded", function (e, editor, response) {
         })
         .on("froalaEditor.image.inserted", function (e, editor, $img, response) {

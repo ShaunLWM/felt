@@ -15,6 +15,7 @@ const config = require("./config");
 const Database = require("./modules/Database");
 let app = express();
 fs.ensureDirSync("./public/img/");
+Utils.getTemporaryDirectory();
 
 let hbs = exphbs.create({
     defaultLayout: "main",
@@ -72,6 +73,7 @@ app.use((req, res, next) => {
     return next();
 });
 
+app.use("/tools", require("./routes/tools"));
 app.use("/protected", require("./routes/protected"));
 app.use("/setup", require("./routes/setup"));
 app.use("/admin", require("./routes/admin"));
