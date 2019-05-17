@@ -1,6 +1,6 @@
 {
   "name": "felt",
-  "version": "0.0.1-beta1",
+  "version": "0.0.2-beta1",
   "main": "app.js",
   "repository": "https://github.com/ShaunLWM/felt.git",
   "author": "ShaunLWM <shaunlimweimin@gmail.com>",
