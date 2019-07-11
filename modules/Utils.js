@@ -50,7 +50,7 @@ module.exports = {
         return {
             ...p,
             ttr: (p["ttr"] < 1) ? "less than a min read" : `${p["ttr"]} min read`,
-            unix: timeago().format(p["date"]),
+            unix: timeago.format(p["date"]),
             month: moment(p["date"]).format("MMMM YYYY"), // just for /m route
             date: moment(p["date"]).format("MMMM Do YYYY, h:mm a"),
             tags: p["tags"].length < 1 ? "none" : (p["tags"].reduce((accu, curr, i, arr) => {
