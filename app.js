@@ -26,7 +26,7 @@ let hbs = exphbs.create({
             return v.replace(/<(.|\n)*?>/g, "").substring(0, 100) + " ...";
         },
         formatTimeAgo: function (v) {
-            return timeago().format(v);
+            return timeago.format(v);
         }
     }
 });
