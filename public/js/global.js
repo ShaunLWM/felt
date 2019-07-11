@@ -33,7 +33,6 @@ $(document).ready(function () {
     $("#panel-post-edit, #panel-post-delete, #panel-post-archive").on("click", function (e) {
         e.preventDefault();
         let slug = $(this).parent().data("slug");
-        console.log(slug);
         switch ($(this).attr("id")) {
             case "panel-post-edit":
                 if ($("#editor").froalaEditor("html.get").length > 0) {
@@ -43,6 +42,7 @@ $(document).ready(function () {
                 $.post("/admin/action", { action: "edit", slug }, (post) => {
                     $("#post_tags").val(post["tags"].join(","));
                     $("#post_title").val(post["title"]);
+                    $("#post_password").val(post["pass"]);
                     $("#editor").froalaEditor("html.set", post["body"]);
                     $("#post-editor-form").attr("data-action", "edit").attr("data-short", post["short"]);
                 }).fail(function (e) {

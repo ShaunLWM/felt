@@ -62,8 +62,8 @@ class Database {
         return this.db.get("posts").find({ slug }).assign({ status }).write();
     }
 
-    editPost({ short, body, title, slug, date }) {
-        return this.db.get("posts").find({ short }).assign({ body, title, slug, date }).write();
+    editPost({ short, body, title, slug, date, password }) {
+        return this.db.get("posts").find({ short }).assign({ body, title, slug, date, pass: password }).write();
     }
 
     processAnalytics(slug) {
