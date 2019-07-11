@@ -269,12 +269,10 @@ $(document).ready(function () {
         e.preventDefault();
         let short = $(this).data("post-short");
         let password = $(this).parent().siblings().find(`[data-protected-short='${short}']`).val();
-        $.post("/post/protected", { short, password }, function (data) {
+        $.post("/p/protected", { short, password }, function (data) {
             $(`#post-body-${short}`).html(data["body"]);
         }).fail(function (data) {
-            $("input").attr("disabled", false);
-            $("#editor").froalaEditor("edit.on");
-            alert(data);
+            alert(data["responseJSON"]["message"])
         });
     })
 });

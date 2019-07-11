@@ -99,7 +99,7 @@ class Database {
         });
     }
 
-    findPost({ tag = null, slug = null }) {
+    findPost({ tag = null, slug = null, short = null }) {
         let posts = this.db.get("posts").value();
         if (tag !== null) {
             return posts.filter(p => {
@@ -110,6 +110,10 @@ class Database {
         if (slug !== null) {
             this.processAnalytics(slug);
             return this.db.get("posts").find({ slug }).value();
+        }
+
+        if (short !== null) {
+            return this.db.get("posts").find({ short }).value();
         }
     }
 
