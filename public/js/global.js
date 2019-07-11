@@ -55,6 +55,15 @@ $(document).ready(function () {
 
                 break;
             case "panel-post-delete":
+                $.post("/admin/action", { action: "delete", slug }, () => {
+                    return $(this).parent().parent().remove();
+                }).fail(function (e) {
+                    if (typeof e["responseJSON"] !== "undefined" && typeof e["responseJSON"]["message"] !== "undefined") {
+                        return alert(e["responseJSON"]["message"]);
+                    }
+
+                    return alert("Error delete post");
+                });
                 break;
             case "panel-post-archive":
                 $.post("/admin/action", { action: "archive", slug }, () => {
