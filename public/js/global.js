@@ -228,6 +228,7 @@ $(document).ready(function () {
         e.preventDefault();
         let tags = $("#post_tags").val().trim();
         let title = $("#post_title").val().trim();
+        let password = $("#post_password").val().trim();
         let body = $("#editor").froalaEditor("html.get");
         if (title.length < 1) {
             return error.text("Title cannot be empty").css("display", "block");
@@ -242,7 +243,7 @@ $(document).ready(function () {
         $("#editor").froalaEditor("edit.off");
         let route = "/admin/post/new";
         let status = $(this).attr("id") === "button-post-submit" ? 1 : 3;
-        let opts = { tags, title, body, status };
+        let opts = { tags, title, body, status, password };
         if ($("#post-editor-form").data("action") === "edit") {
             route = "/admin/post/edit";
             opts["short"] = $("#post-editor-form").data("short");

@@ -28,6 +28,7 @@ module.exports = {
         let slug = `${slugify(title.toLowerCase())}-${this.randomId(5).toLowerCase()}`;
         let body = opts["body"].trim().replace(/class="fr-fic fr-dib"/g, `class="fr-fic fr-dib materialboxed"`);
         let status = parseInt(opts["status"]);
+        let password = opts["password"];
         let post = {
             slug,
             title,
@@ -35,6 +36,7 @@ module.exports = {
             body,
             tags,
             status,
+            password,
             ttr: this.calculateReadingTime(body.replace(/<(?:.|\n)*?>/gm, ""))
         };
 
