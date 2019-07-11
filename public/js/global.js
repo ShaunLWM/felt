@@ -264,4 +264,17 @@ $(document).ready(function () {
     $('input[name="checkbox_post_action"]').change(function () {
         console.log($(this).data("slug"));
     });
+
+    $(".btn-protected-submit").on("click", function (e) {
+        e.preventDefault();
+        let short = $(this).data("post-short");
+        let password = $(this).parent().siblings().find(`[data-protected-short='${short}']`).val();
+        $.post("/post/protected", { short, password }, function (data) {
+            $(`#post-body-${short}`).html(data["body"]);
+        }).fail(function (data) {
+            $("input").attr("disabled", false);
+            $("#editor").froalaEditor("edit.on");
+            alert(data);
+        });
+    })
 });

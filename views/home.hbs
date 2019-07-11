@@ -3,8 +3,21 @@
         {{#each posts}}
         <div class="post fr-view">
             <h5><a href="/p/{{slug}}">{{title}}</a></h5>
-            <p><small class="tooltipped" data-position="bottom" data-tooltip="{{date}}"> Posted {{unix}}, {{ttr}}</small></p>
+            <p><small class="tooltipped" data-position="bottom" data-tooltip="{{date}}"> Posted {{unix}},
+                    {{ttr}}</small></p>
+            {{#if pass}}
+            <p>Sorry, this post is password protected</p>
+            <div id="post-body-{{short}}" class="row">
+                <div class="input-field col s6">
+                    <input placeholder="Password" type="text" class="validate post_protected" data-protected-short={{short}}>
+                </div>
+                <div class="input-field col s6">
+                    <a class="btn-floating btn-large waves-effect waves-light red btn-protected-submit" data-post-short={{short}}><i class="material-icons">send</i></a>
+                </div>
+            </div>
+            {{else}}
             <p>{{{body}}}</p>
+            {{/if}}
             <p class="post-tags">Tags: {{{tags}}}</p>
         </div>
 
