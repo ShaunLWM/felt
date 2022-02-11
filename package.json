@@ -17,7 +17,7 @@
     "cryptr": "^4.0.2",
     "escape-html": "^1.0.3",
     "express": "^4.16.4",
-    "express-handlebars": "^3.0.0",
+    "express-handlebars": "^5.3.1",
     "fast-glob": "^2.2.6",
     "fs-extra": "^7.0.1",
     "helmet": "^3.15.0",
